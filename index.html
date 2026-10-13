@@ -308,6 +308,30 @@
         .ai-freeform-fields .calculate-button { width: auto; margin: 0; padding: 0 16px; }
         .assistant-error:empty { display: none; }
 
+        .ai-loading {
+            display: none;
+            align-items: center;
+            gap: 9px;
+            margin-top: 14px;
+            color: var(--green-dark);
+            font-size: .84rem;
+            font-weight: 600;
+        }
+
+        .ai-loading.is-visible { display: flex; }
+
+        .ai-spinner {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 16px;
+            border: 2px solid #c7d9ca;
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: ai-spin .7s linear infinite;
+        }
+
+        @keyframes ai-spin { to { transform: rotate(360deg); } }
+
         .ai-answer {
             display: none;
             margin-top: 16px;
@@ -884,6 +908,10 @@
                 </div>
                 <p class="error-message assistant-error" id="aiQuestionError" role="alert"></p>
             </form>
+            <div class="ai-loading" id="aiLoading" role="status" aria-live="polite">
+                <span class="ai-spinner" aria-hidden="true"></span>
+                <span data-i18n="aiLoading">तयार सोलर मार्गदर्शन शोधत आहोत...</span>
+            </div>
             <div id="aiRes" class="ai-answer" role="status" aria-live="polite"></div>
         </section>
 
@@ -1076,6 +1104,7 @@
                 aiFreeformLabel: "किंमत, जागा, पॅनेल, पावसाळा किंवा अनुदानाबद्दल प्रश्न विचारा",
                 aiInputPlaceholder: "उदा. 1 kW सोलरला किती खर्च येतो?",
                 aiAskButton: "प्रश्न विचारा",
+                aiLoading: "तयार सोलर मार्गदर्शन शोधत आहोत...",
                 aiPromptError: "कृपया सोलरबद्दल प्रश्न लिहा.",
                 aiOptionType: "माझ्या घरासाठी कोणते पॅनेल योग्य आहे?",
                 aiOptionSpace: "सोलरसाठी किती जागा लागते?",
@@ -1191,6 +1220,7 @@
                 aiFreeformLabel: "Ask about cost, roof space, panels, monsoon output, or subsidy",
                 aiInputPlaceholder: "e.g. How much does a 1 kW solar system cost?",
                 aiAskButton: "Ask question",
+                aiLoading: "Matching your question to prepared solar guidance...",
                 aiPromptError: "Enter a solar question first.",
                 aiOptionType: "Which panels are suitable for my home?",
                 aiOptionSpace: "How much roof space does solar need?",
@@ -1306,6 +1336,7 @@
                 aiFreeformLabel: "कीमत, छत की जगह, पैनल, बारिश या सब्सिडी के बारे में पूछें",
                 aiInputPlaceholder: "जैसे: 1 kW सोलर सिस्टम का खर्च कितना है?",
                 aiAskButton: "सवाल पूछें",
+                aiLoading: "आपके सवाल से जुड़ी सोलर जानकारी खोज रहे हैं...",
                 aiPromptError: "पहले सोलर से जुड़ा सवाल लिखें।",
                 aiOptionType: "मेरे घर के लिए कौन-से पैनल सही हैं?",
                 aiOptionSpace: "सोलर के लिए कितनी जगह चाहिए?",
@@ -1346,6 +1377,8 @@
         const aiQuestionForm = document.getElementById("aiQuestionForm");
         const aiQuestionInput = document.getElementById("userAIQuestion");
         const aiQuestionError = document.getElementById("aiQuestionError");
+        const aiLoading = document.getElementById("aiLoading");
+        const aiResponse = document.getElementById("aiRes");
         const languageSelect = document.getElementById("langSelect");
         const localeByLanguage = { mr: "mr-IN", en: "en-IN", hi: "hi-IN" };
         let currentLanguage = "mr";
@@ -1355,6 +1388,7 @@
         let lastEmi = null;
         let hasEmiError = false;
         let hasAssistantError = false;
+        let assistantRequestId = 0;
 
         function translate(key) {
             return translations[currentLanguage][key];
@@ -1461,12 +1495,14 @@
         }
 
         function renderAssistantAnswer() {
-            const answer = document.getElementById("aiRes");
-            answer.textContent = translate(latestAssistantQuery);
-            answer.classList.add("is-visible");
+            aiLoading.classList.remove("is-visible");
+            aiResponse.textContent = translate(latestAssistantQuery);
+            aiResponse.classList.add("is-visible");
         }
 
         function askAIAssistant() {
+            assistantRequestId += 1;
+            aiLoading.classList.remove("is-visible");
             const answerByQuestion = {
                 type: "aiAnswerType",
                 space: "aiAnswerSpace",
@@ -1496,10 +1532,16 @@
             return topics.find(([pattern]) => pattern.test(normalizedQuestion))?.[1] || "aiAnswerFallback";
         }
 
-        function askSolarQuestion() {
+        async function askSolarQuestion() {
+            const requestId = assistantRequestId + 1;
+            assistantRequestId = requestId;
             const question = aiQuestionInput.value.trim();
             hasAssistantError = false;
             aiQuestionError.textContent = "";
+            aiLoading.classList.remove("is-visible");
+            aiResponse.classList.remove("is-visible");
+            aiResponse.textContent = "";
+            latestAssistantQuery = null;
 
             if (!question) {
                 hasAssistantError = true;
@@ -1508,6 +1550,11 @@
                 return;
             }
 
+            aiLoading.classList.add("is-visible");
+            await new Promise((resolve) => window.requestAnimationFrame(resolve));
+            if (requestId !== assistantRequestId) return;
+
+            aiLoading.classList.remove("is-visible");
             latestAssistantQuery = getAssistantAnswerKey(question);
             renderAssistantAnswer();
         }
@@ -1515,6 +1562,7 @@
         window.changeLanguage = changeLanguage;
         window.askAIAssistant = askAIAssistant;
         window.calcEMI = calcEMI;
+        window.askSolarQuestion = askSolarQuestion;
 
         aiQuestionForm.addEventListener("submit", (event) => {
             event.preventDefault();
