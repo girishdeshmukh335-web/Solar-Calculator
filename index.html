@@ -293,6 +293,21 @@
         .ai-query-row label { margin-bottom: 7px; font-size: .86rem; font-weight: 600; }
         .ai-query-row select { min-height: 48px; }
 
+        .ai-freeform { margin-top: 18px; }
+
+        .ai-freeform label { margin-bottom: 7px; font-size: .86rem; font-weight: 600; }
+
+        .ai-freeform-fields {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            gap: 10px;
+        }
+
+        .ai-freeform-fields input { min-height: 48px; }
+        .ai-freeform-fields .calculate-button { width: auto; margin: 0; padding: 0 16px; }
+        .assistant-error:empty { display: none; }
+
         .ai-answer {
             display: none;
             margin-top: 16px;
@@ -671,6 +686,8 @@
             .ai-query-row { grid-template-columns: 1fr; }
             .ai-query-row .calculate-button { width: 100%; }
             .ai-advisor { padding: 22px 20px; }
+            .ai-freeform-fields { grid-template-columns: 1fr; }
+            .ai-freeform-fields .calculate-button { width: 100%; }
             .emi-form-grid { grid-template-columns: 1fr; }
             .emi-calculate { width: 100%; }
             .apply-strip { align-items: flex-start; flex-direction: column; }
@@ -856,6 +873,17 @@
                 </div>
                 <button class="calculate-button" type="button" onclick="askAIAssistant()" data-i18n="aiAnswerButton">उत्तर मिळवा</button>
             </div>
+            <form class="ai-freeform" id="aiQuestionForm">
+                <label for="userAIQuestion" data-i18n="aiFreeformLabel">किंमत, जागा, पॅनेल, पावसाळा किंवा अनुदानाबद्दल प्रश्न विचारा</label>
+                <div class="ai-freeform-fields">
+                    <input type="text" id="userAIQuestion" maxlength="500" autocomplete="off" placeholder="उदा. 1 kW सोलरला किती खर्च येतो?" data-i18n-placeholder="aiInputPlaceholder">
+                    <button class="calculate-button" type="submit">
+                        <span data-i18n="aiAskButton">प्रश्न विचारा</span>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 3-7.2 18-3.1-7.7L3 10.2 21 3Zm0 0L10.7 13.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+                <p class="error-message assistant-error" id="aiQuestionError" role="alert"></p>
+            </form>
             <div id="aiRes" class="ai-answer" role="status" aria-live="polite"></div>
         </section>
 
@@ -1043,8 +1071,12 @@
                 areaLimited: "उपलब्ध छताच्या क्षेत्रामुळे क्षमता {capacity} kW पर्यंत मर्यादित आहे.",
                 areaSufficient: "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे.",
                 aiTitle: "AI सोलर सल्लागार",
-                aiDescription: "पूर्वनिवडलेल्या प्रश्नांवर आधारित सामान्य मार्गदर्शन; वैयक्तिक AI सेवा किंवा तांत्रिक सल्ला नाही.",
+                aiDescription: "स्वतःचा प्रश्न लिहा किंवा नमुना निवडा. उत्तरे तयार विषयांशी जुळवली जातात; Gemini किंवा live AI सेवेशी जोडलेले नाही.",
                 aiQuestionLabel: "तुमचा प्रश्न निवडा:",
+                aiFreeformLabel: "किंमत, जागा, पॅनेल, पावसाळा किंवा अनुदानाबद्दल प्रश्न विचारा",
+                aiInputPlaceholder: "उदा. 1 kW सोलरला किती खर्च येतो?",
+                aiAskButton: "प्रश्न विचारा",
+                aiPromptError: "कृपया सोलरबद्दल प्रश्न लिहा.",
                 aiOptionType: "माझ्या घरासाठी कोणते पॅनेल योग्य आहे?",
                 aiOptionSpace: "सोलरसाठी किती जागा लागते?",
                 aiOptionRain: "पावसाळ्यात सोलर वीज तयार करतो का?",
@@ -1054,6 +1086,9 @@
                 aiAnswerSpace: "साधारणपणे प्रत्येक 1 kW साठी सुमारे 100 चौ. फूट जागा धरली जाते. पॅनेलची मांडणी, सावली आणि देखभालीसाठीची जागा यामुळे प्रत्यक्ष गरज बदलू शकते.",
                 aiAnswerRain: "हो. ढगाळ किंवा पावसाळी दिवसांतही पॅनेल वीज तयार करू शकतात; कमी सूर्यप्रकाशामुळे उत्पादन घटते. उत्पादनाची ठरावीक टक्केवारी सांगता येत नाही, कारण ते हवामान, सावली आणि प्रणालीवर अवलंबून असते.",
                 aiAnswerSubsidy: "पात्र आणि मंजूर निवासी यंत्रणेसाठी अनुदान अधिकृत प्रक्रियेनंतर नोंदणीकृत अर्जदाराच्या खात्यात जमा होऊ शकते. पात्रता, तपासणी, मंजुरी आणि सद्य नियम अधिकृत PM Surya Ghar पोर्टलवर तपासा. OTP कोणालाही सांगू नका.",
+                aiAnswerCost: "1 kW सोलरचा एकच निश्चित खर्च नसतो. पॅनेल, इन्व्हर्टर, छत आणि बसवण्याच्या खर्चानुसार किंमत बदलते. या पानावरील विक्रेता दर फक्त उदाहरणे आहेत; अधिकृत नोंदणीकृत विक्रेत्याकडून लेखी कोटेशन घ्या.",
+                aiAnswerLoan: "मासिक EMI कर्ज रक्कम, कालावधी आणि वार्षिक व्याजदरावर अवलंबून असते. खालील EMI साधनात दर बदलून अंदाज घ्या; तुमच्या बँकेचे शुल्क व अंतिम अटी तपासा.",
+                aiAnswerFallback: "मी पॅनेल निवड, छताची जागा, पावसाळ्यातील उत्पादन, सबसिडी, अंदाजे खर्च किंवा EMI याबद्दल सामान्य माहिती देऊ शकतो. अधिकृत नियम व वैयक्तिक कोटेशनसाठी संबंधित पोर्टल किंवा विक्रेत्याकडे तपासा.",
                 emiTitle: "बँक कर्ज व हप्ता (Green Loan EMI)",
                 emiDescription: "सोलर कर्जासाठी अंदाजे मासिक हप्ता आणि एकूण परतफेड मोजा.",
                 loanAmountLabel: "कर्ज रक्कम (₹)",
@@ -1151,8 +1186,12 @@
                 areaLimited: "Available roof area limits the system to {capacity} kW.",
                 areaSufficient: "Available roof area is sufficient for this capacity.",
                 aiTitle: "AI solar advisor",
-                aiDescription: "General guidance from preset questions; this is not a personal AI service or technical consultation.",
+                aiDescription: "Type a question or choose a preset. Replies match prepared topics; this page is not connected to Gemini or a live AI service.",
                 aiQuestionLabel: "Choose a question:",
+                aiFreeformLabel: "Ask about cost, roof space, panels, monsoon output, or subsidy",
+                aiInputPlaceholder: "e.g. How much does a 1 kW solar system cost?",
+                aiAskButton: "Ask question",
+                aiPromptError: "Enter a solar question first.",
                 aiOptionType: "Which panels are suitable for my home?",
                 aiOptionSpace: "How much roof space does solar need?",
                 aiOptionRain: "Does solar generate electricity during monsoon?",
@@ -1162,6 +1201,9 @@
                 aiAnswerSpace: "A rough planning estimate is about 100 sq. ft. per 1 kW. Actual space varies with panel layout, shade, and access needed for maintenance.",
                 aiAnswerRain: "Yes. Panels can still generate on cloudy or rainy days, but lower sunlight reduces output. There is no fixed percentage; generation depends on weather, shade, and system design.",
                 aiAnswerSubsidy: "For an eligible, approved residential system, the subsidy may be disbursed to the registered applicant's bank account through the official process. Check current eligibility, inspection, and approval rules on the PM Surya Ghar portal. Never share an OTP.",
+                aiAnswerCost: "There is no single fixed price for a 1 kW system. Cost varies with panels, inverter, roof, and installation. Vendor prices on this page are examples only; request a written quote from an officially registered vendor.",
+                aiAnswerLoan: "Monthly EMI depends on the loan amount, term, and annual interest rate. Try different rates in the EMI calculator below and confirm fees and final terms with your bank.",
+                aiAnswerFallback: "I can provide general guidance on panel selection, roof space, monsoon generation, subsidy, approximate cost, or EMI. Check the relevant official portal or vendor for current rules and a site-specific quote.",
                 emiTitle: "Green loan EMI calculator",
                 emiDescription: "Estimate the monthly payment and total repayment for a solar loan.",
                 loanAmountLabel: "Loan amount (₹)",
@@ -1259,8 +1301,12 @@
                 areaLimited: "उपलब्ध छत का क्षेत्र सिस्टम को {capacity} kW तक सीमित करता है।",
                 areaSufficient: "उपलब्ध छत का क्षेत्र इस क्षमता के लिए पर्याप्त है।",
                 aiTitle: "AI सोलर सलाहकार",
-                aiDescription: "पहले से तय सवालों पर सामान्य जानकारी; यह निजी AI सेवा या तकनीकी परामर्श नहीं है।",
+                aiDescription: "अपना सवाल लिखें या दिया गया विकल्प चुनें। जवाब तय विषयों से मिलाए जाते हैं; यह Gemini या लाइव AI सेवा से जुड़ा नहीं है।",
                 aiQuestionLabel: "अपना सवाल चुनें:",
+                aiFreeformLabel: "कीमत, छत की जगह, पैनल, बारिश या सब्सिडी के बारे में पूछें",
+                aiInputPlaceholder: "जैसे: 1 kW सोलर सिस्टम का खर्च कितना है?",
+                aiAskButton: "सवाल पूछें",
+                aiPromptError: "पहले सोलर से जुड़ा सवाल लिखें।",
                 aiOptionType: "मेरे घर के लिए कौन-से पैनल सही हैं?",
                 aiOptionSpace: "सोलर के लिए कितनी जगह चाहिए?",
                 aiOptionRain: "क्या बारिश के मौसम में सोलर बिजली बनाता है?",
@@ -1270,6 +1316,9 @@
                 aiAnswerSpace: "मोटे अनुमान के लिए हर 1 kW पर लगभग 100 वर्ग फुट जगह मानें। पैनल की व्यवस्था, छाया और रखरखाव के लिए रास्ते के कारण वास्तविक जरूरत बदल सकती है।",
                 aiAnswerRain: "हाँ। बादल या बारिश में भी पैनल बिजली बना सकते हैं, लेकिन कम धूप से उत्पादन घटता है। कोई तय प्रतिशत नहीं है; उत्पादन मौसम, छाया और सिस्टम डिज़ाइन पर निर्भर करता है।",
                 aiAnswerSubsidy: "पात्र और मंज़ूर घरेलू सिस्टम के लिए आधिकारिक प्रक्रिया के बाद सब्सिडी पंजीकृत आवेदक के बैंक खाते में भेजी जा सकती है। पात्रता, निरीक्षण और मंज़ूरी के मौजूदा नियम PM Surya Ghar पोर्टल पर जाँचें। OTP साझा न करें।",
+                aiAnswerCost: "1 kW सिस्टम की कोई एक तय कीमत नहीं होती। पैनल, इन्वर्टर, छत और इंस्टॉलेशन के अनुसार लागत बदलती है। इस पेज पर विक्रेता की कीमतें केवल उदाहरण हैं; आधिकारिक रूप से पंजीकृत विक्रेता से लिखित कोटेशन लें।",
+                aiAnswerLoan: "मासिक EMI लोन राशि, अवधि और वार्षिक ब्याज दर पर निर्भर करती है। नीचे EMI कैलकुलेटर में अलग-अलग दरें आज़माएँ और शुल्क व अंतिम शर्तें अपने बैंक से जाँचें।",
+                aiAnswerFallback: "मैं पैनल चुनने, छत की जगह, बारिश में उत्पादन, सब्सिडी, अनुमानित लागत या EMI पर सामान्य जानकारी दे सकता हूँ। मौजूदा नियम और साइट के अनुसार कोटेशन के लिए आधिकारिक पोर्टल या विक्रेता से जाँचें।",
                 emiTitle: "ग्रीन लोन EMI कैलकुलेटर",
                 emiDescription: "सोलर लोन की अनुमानित मासिक किस्त और कुल भुगतान जानें।",
                 loanAmountLabel: "लोन राशि (₹)",
@@ -1294,6 +1343,9 @@
         const capacityNote = document.getElementById("capacityNote");
         const emiError = document.getElementById("emiError");
         const emiResults = document.getElementById("emiRes");
+        const aiQuestionForm = document.getElementById("aiQuestionForm");
+        const aiQuestionInput = document.getElementById("userAIQuestion");
+        const aiQuestionError = document.getElementById("aiQuestionError");
         const languageSelect = document.getElementById("langSelect");
         const localeByLanguage = { mr: "mr-IN", en: "en-IN", hi: "hi-IN" };
         let currentLanguage = "mr";
@@ -1302,6 +1354,7 @@
         let latestAssistantQuery = null;
         let lastEmi = null;
         let hasEmiError = false;
+        let hasAssistantError = false;
 
         function translate(key) {
             return translations[currentLanguage][key];
@@ -1327,6 +1380,7 @@
 
             if (hasValidationError) errorMessage.textContent = translate("validationError");
             if (hasEmiError) emiError.textContent = translate("emiInvalid");
+            if (hasAssistantError) aiQuestionError.textContent = translate("aiPromptError");
             if (lastEstimate) renderEstimate(lastEstimate);
             if (latestAssistantQuery) renderAssistantAnswer();
             if (lastEmi) renderEmi(lastEmi);
@@ -1422,13 +1476,50 @@
             const answerKey = answerByQuestion[document.getElementById("aiQuery").value];
 
             if (!answerKey) return;
+            hasAssistantError = false;
+            aiQuestionError.textContent = "";
             latestAssistantQuery = answerKey;
+            renderAssistantAnswer();
+        }
+
+        function getAssistantAnswerKey(question) {
+            const normalizedQuestion = question.toLocaleLowerCase();
+            const topics = [
+                [/(subsid|अनुदान|सब्सिडी|सबसिडी)/u, "aiAnswerSubsidy"],
+                [/(loan|emi|interest|कर्ज|हप्ता|व्याज|ब्याज|ऋण|किस्त)/u, "aiAnswerLoan"],
+                [/(cost|price|budget|expense|खर्च|किंमत|मूल्य|लागत|कीमत|दर)/u, "aiAnswerCost"],
+                [/(space|area|roof|जागा|क्षेत्र|छत|जगह|स्थान)/u, "aiAnswerSpace"],
+                [/(rain|monsoon|cloud|पाऊस|पावसाळ|बारिश|मानसून|बादल)/u, "aiAnswerRain"],
+                [/(panel|module|solar|पॅनेल|पॅनल|पैनल|मॉड्यूल|सोलर|सौर)/u, "aiAnswerType"]
+            ];
+
+            return topics.find(([pattern]) => pattern.test(normalizedQuestion))?.[1] || "aiAnswerFallback";
+        }
+
+        function askSolarQuestion() {
+            const question = aiQuestionInput.value.trim();
+            hasAssistantError = false;
+            aiQuestionError.textContent = "";
+
+            if (!question) {
+                hasAssistantError = true;
+                aiQuestionError.textContent = translate("aiPromptError");
+                aiQuestionInput.focus();
+                return;
+            }
+
+            latestAssistantQuery = getAssistantAnswerKey(question);
             renderAssistantAnswer();
         }
 
         window.changeLanguage = changeLanguage;
         window.askAIAssistant = askAIAssistant;
         window.calcEMI = calcEMI;
+
+        aiQuestionForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            askSolarQuestion();
+        });
 
         form.addEventListener("submit", (event) => {
             event.preventDefault();
