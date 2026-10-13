@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f6f1">
+    <meta name="description" content="वीज बिल आणि छताच्या क्षेत्रफळानुसार तुमच्या घरासाठी सोलर क्षमतेचा अंदाज घ्या.">
+    <title>EcoGrid | सोलर कॅल्क्युलेटर</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #202921;
+            --muted: #667168;
+            --green: #287447;
+            --green-dark: #1e5937;
+            --green-wash: #e9f1e8;
+            --sun: #edb94c;
+            --line: #dfe4dc;
+            --paper: #fff;
+            --canvas: #f5f6f1;
+            --font: "DM Sans", "Noto Sans Devanagari", sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--canvas);
+            color: var(--ink);
+            font-family: var(--font);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button, input, select { font: inherit; }
+
+        .topbar {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1180px;
+            margin: auto;
+            padding: 0 28px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border-radius: 10px;
+            background: var(--green);
+            color: white;
+        }
+
+        .brand-mark svg { width: 21px; height: 21px; }
+
+        .topbar-note {
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 24px 28px 56px;
+        }
+
+        .intro {
+            min-height: 244px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 38px 44px;
+            border-radius: 8px;
+            background: #e7ece3;
+            isolation: isolate;
+        }
+
+        .intro::before {
+            position: absolute;
+            z-index: -2;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(20, 36, 26, .91) 0%, rgba(20, 36, 26, .74) 46%, rgba(20, 36, 26, .08) 100%), url("https://images.unsplash.com/photo-1509391365370-d86413179216?auto=format&fit=crop&w=1800&q=85") center 48% / cover;
+            content: "";
+        }
+
+        .intro-copy { max-width: 610px; color: #fff; }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: #d5e6d1;
+            font-family: "DM Sans", sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 580px;
+            margin: 0;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.28;
+        }
+
+        .intro-copy > p:last-child {
+            max-width: 530px;
+            margin: 12px 0 0;
+            color: #e8eee8;
+            font-size: 1rem;
+        }
+
+        .planner {
+            display: grid;
+            grid-template-columns: minmax(0, 1.06fr) minmax(340px, .94fr);
+            margin-top: 22px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+            box-shadow: 0 12px 32px rgba(32, 41, 33, .055);
+        }
+
+        .form-panel { padding: 34px 38px 38px; }
+
+        .section-heading {
+            margin: 0 0 5px;
+            font-size: 1.28rem;
+            font-weight: 600;
+        }
+
+        .section-note {
+            margin: 0 0 25px;
+            color: var(--muted);
+            font-size: .91rem;
+        }
+
+        .form-group { margin-bottom: 19px; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: .91rem;
+            font-weight: 600;
+        }
+
+        .field-wrap { position: relative; }
+
+        .field-prefix, .field-suffix {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .field-prefix { left: 15px; }
+        .field-suffix { right: 15px; font-size: .85rem; }
+
+        input, select {
+            width: 100%;
+            min-height: 50px;
+            border: 1px solid #cdd5cc;
+            border-radius: 5px;
+            background: #fff;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .16s ease, box-shadow .16s ease;
+        }
+
+        input { padding: 11px 15px; }
+        input.with-prefix { padding-left: 37px; }
+        input.with-suffix { padding-right: 78px; }
+        select { padding: 11px 14px; }
+
+        input:focus, select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(40, 116, 71, .13);
+        }
+
+        .field-hint {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+        .error-message {
+            min-height: 1.45em;
+            margin: 0 0 4px;
+            color: #a3322e;
+            font-size: .85rem;
+        }
+
+        .calculate-button {
+            display: inline-flex;
+            min-height: 52px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 2px;
+            border: 0;
+            border-radius: 5px;
+            background: var(--green);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background .16s ease, transform .16s ease;
+        }
+
+        .calculate-button:hover { background: var(--green-dark); }
+        .calculate-button:active { transform: translateY(1px); }
+        .calculate-button:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+        .calculate-button svg { width: 19px; height: 19px; }
+
+        .result-panel {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            padding: 34px 34px 30px;
+            background: #eef3eb;
+        }
+
+        .result-kicker {
+            margin: 0 0 4px;
+            color: var(--green);
+            font-family: "DM Sans", sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .result-title { margin: 0; font-size: 1.28rem; font-weight: 600; }
+
+        .empty-state {
+            display: flex;
+            flex: 1;
+            min-height: 250px;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            color: var(--muted);
+        }
+
+        .sun-icon {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 15px;
+            place-items: center;
+            border-radius: 50%;
+            background: #f9eac7;
+            color: #9a6e14;
+        }
+
+        .sun-icon svg { width: 25px; height: 25px; }
+        .empty-state p { max-width: 280px; margin: 0; }
+
+        .results { display: none; margin-top: 23px; }
+        .results.is-visible { display: block; animation: appear .28s ease both; }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .capacity-block {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 17px 0 19px;
+            border-bottom: 1px solid #d5dfd2;
+        }
+
+        .capacity-value { font-family: "DM Sans", sans-serif; font-size: 3.25rem; font-weight: 600; line-height: 1; }
+        .capacity-unit { color: var(--muted); font-family: "DM Sans", sans-serif; font-size: 1.1rem; }
+        .capacity-label { margin-left: auto; color: var(--green-dark); font-size: .82rem; font-weight: 600; }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 15px 0;
+            border-bottom: 1px solid #d5dfd2;
+            font-size: .9rem;
+        }
+
+        .metric-label { color: var(--muted); }
+        .metric-value { flex-shrink: 0; font-weight: 700; text-align: right; }
+        .metric-value.savings { color: var(--green-dark); }
+
+        .capacity-note {
+            display: none;
+            margin: 14px 0 0;
+            padding: 10px 12px;
+            border-left: 3px solid var(--sun);
+            background: rgba(255, 255, 255, .65);
+            color: #635325;
+            font-size: .82rem;
+        }
+
+        .capacity-note.is-visible { display: block; }
+
+        .assumption-note {
+            margin: auto 0 0;
+            padding-top: 24px;
+            color: var(--muted);
+            font-size: .77rem;
+            line-height: 1.55;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            max-width: 1180px;
+            margin: auto;
+            padding: 0 28px 28px;
+            color: var(--muted);
+            font-size: .78rem;
+        }
+
+        @media (max-width: 760px) {
+            .topbar { height: 64px; padding: 0 20px; }
+            main { padding: 14px 16px 38px; }
+            .intro { min-height: 230px; padding: 30px 25px; }
+            .intro::before { background-image: linear-gradient(90deg, rgba(20, 36, 26, .9), rgba(20, 36, 26, .55)), url("https://images.unsplash.com/photo-1509391365370-d86413179216?auto=format&fit=crop&w=1100&q=80"); }
+            .planner { grid-template-columns: 1fr; }
+            .form-panel, .result-panel { padding: 27px 25px; }
+            .result-panel { min-height: 370px; }
+            .empty-state { min-height: 190px; }
+            footer { padding: 0 20px 24px; }
+        }
+
+        @media (max-width: 420px) {
+            .topbar-note { max-width: 120px; font-size: .76rem; text-align: right; }
+            .intro { min-height: 248px; padding: 26px 21px; }
+            h1 { font-size: 1.75rem; }
+            .form-panel, .result-panel { padding: 24px 20px; }
+            .capacity-value { font-size: 2.9rem; }
+            footer { flex-direction: column; gap: 3px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#top" aria-label="EcoGrid मुख्यपृष्ठ">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.4 4.7c-5.1-.2-9 .7-11.3 3C5.8 10 5.9 13.4 8 15.4c2.1 2.1 5.4 2.2 7.7-.1 2.3-2.3 3.2-6.2 3-10.6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.8 20c2.3-4.5 5.5-7.6 10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>EcoGrid</span>
+        </a>
+        <span class="topbar-note">घरगुती सौर नियोजन</span>
+    </header>
+
+    <main id="top">
+        <section class="intro" aria-labelledby="page-title">
+            <div class="intro-copy">
+                <p class="eyebrow">Rooftop solar planner · Maharashtra</p>
+                <h1 id="page-title">तुमच्या छतासाठी योग्य सोलर शोधा.</h1>
+                <p>वीज बिल आणि उपलब्ध जागेनुसार सोलर क्षमतेचा व संभाव्य बचतीचा अंदाज घ्या.</p>
+            </div>
+        </section>
+
+        <section class="planner" aria-label="सोलर क्षमतेचा अंदाज">
+            <div class="form-panel">
+                <h2 class="section-heading">तुमची माहिती</h2>
+                <p class="section-note">अंदाजासाठी खालील तपशील भरा.</p>
+
+                <form id="solarForm" novalidate>
+                    <div class="form-group">
+                        <label for="bill">महिन्याचे सरासरी वीज बिल</label>
+                        <div class="field-wrap">
+                            <span class="field-prefix" aria-hidden="true">₹</span>
+                            <input class="with-prefix" type="number" id="bill" name="bill" min="1" step="1" inputmode="decimal" placeholder="उदा. 2,000" required aria-describedby="bill-hint">
+                        </div>
+                        <p class="field-hint" id="bill-hint">मासिक बिलावरील रक्कम रुपये मध्ये</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area">उपलब्ध छताचे क्षेत्रफळ</label>
+                        <div class="field-wrap">
+                            <input class="with-suffix" type="number" id="area" name="area" min="20" step="1" inputmode="decimal" placeholder="उदा. 300" required aria-describedby="area-hint">
+                            <span class="field-suffix" aria-hidden="true">चौ. फूट</span>
+                        </div>
+                        <p class="field-hint" id="area-hint">प्रत्येक 1 kW क्षमतेसाठी अंदाजे 100 चौ. फूट</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locationType">क्षेत्राचा प्रकार</label>
+                        <select id="locationType" name="locationType">
+                            <option value="urban" data-rate="8">शहरी भाग · अंदाजे ₹8 / युनिट</option>
+                            <option value="rural" data-rate="7">ग्रामीण भाग · अंदाजे ₹7 / युनिट</option>
+                        </select>
+                    </div>
+
+                    <p class="error-message" id="formError" role="alert"></p>
+                    <button class="calculate-button" type="submit">
+                        <span>अंदाज मोजा</span>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </form>
+            </div>
+
+            <section class="result-panel" aria-labelledby="result-title" aria-live="polite">
+                <p class="result-kicker">तुमचा सोलर अंदाज</p>
+                <h2 class="result-title" id="result-title">संभाव्य परिणाम</h2>
+
+                <div class="empty-state" id="emptyState">
+                    <span class="sun-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                    </span>
+                    <p>तुमची माहिती भरल्यानंतर क्षमतेचा आणि बचतीचा अंदाज इथे दिसेल.</p>
+                </div>
+
+                <div class="results" id="results">
+                    <div class="capacity-block">
+                        <span class="capacity-value" id="resCapacity">—</span>
+                        <span class="capacity-unit">kW</span>
+                        <span class="capacity-label">शिफारस केलेली क्षमता</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">अंदाजे मासिक निर्मिती</span>
+                        <span class="metric-value"><span id="resGeneration">—</span> युनिट</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">अंदाजे मासिक बचत</span>
+                        <span class="metric-value savings">₹ <span id="resSavings">—</span></span>
+                    </div>
+                    <p class="capacity-note" id="capacityNote"></p>
+                </div>
+
+                <p class="assumption-note">हा प्राथमिक अंदाज आहे. प्रत्यक्ष निर्मिती छताची दिशा, सावली, स्थानिक दर आणि यंत्रणेच्या रचनेनुसार बदलू शकते.</p>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <span>© 2026 Seva First Innovation Challenge</span>
+        <span>स्वच्छ ऊर्जेकडे एक पाऊल</span>
+    </footer>
+
+    <script>
+        const form = document.getElementById("solarForm");
+        const errorMessage = document.getElementById("formError");
+        const results = document.getElementById("results");
+        const emptyState = document.getElementById("emptyState");
+        const capacityNote = document.getElementById("capacityNote");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            errorMessage.textContent = "";
+
+            const bill = Number(document.getElementById("bill").value);
+            const area = Number(document.getElementById("area").value);
+            const location = document.getElementById("locationType");
+            const tariff = Number(location.selectedOptions[0].dataset.rate);
+
+            if (!Number.isFinite(bill) || bill <= 0 || !Number.isFinite(area) || area < 20) {
+                errorMessage.textContent = "कृपया बिलाची रक्कम आणि किमान 20 चौ. फूट क्षेत्रफळ भरा.";
+                return;
+            }
+
+            const monthlyUnitsNeeded = bill / tariff;
+            const desiredCapacity = Math.ceil((monthlyUnitsNeeded / 120) * 10) / 10;
+            const roofCapacity = Math.floor((area / 100) * 10) / 10;
+            const capacity = Math.min(desiredCapacity, roofCapacity);
+            const monthlyGeneration = Math.round(capacity * 120);
+            const savings = Math.min(monthlyGeneration * tariff, bill);
+            const areaLimited = roofCapacity < desiredCapacity;
+
+            document.getElementById("resCapacity").textContent = capacity.toFixed(1);
+            document.getElementById("resGeneration").textContent = monthlyGeneration.toLocaleString("en-IN");
+            document.getElementById("resSavings").textContent = Math.round(savings).toLocaleString("en-IN");
+
+            capacityNote.textContent = areaLimited
+                ? `उपलब्ध छताच्या क्षेत्रामुळे क्षमता ${capacity.toFixed(1)} kW पर्यंत मर्यादित आहे.`
+                : "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे.";
+            capacityNote.classList.add("is-visible");
+            emptyState.hidden = true;
+            results.classList.add("is-visible");
+        });
+    </script>
+</body>
+</html>
