@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f6f1">
-    <meta name="description" content="वीज बिल आणि छताच्या क्षेत्रफळानुसार तुमच्या घरासाठी सोलर क्षमतेचा अंदाज घ्या.">
+    <meta name="description" content="वीज बिल आणि छताच्या क्षेत्रफळानुसार तुमच्या घरासाठी सोलर क्षमतेचा अंदाज घ्या." data-i18n-content="pageDescription">
     <title>EcoGrid | Rooftop Solar Planner Maharashtra</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +73,26 @@
         .topbar-note {
             color: var(--muted);
             font-size: .88rem;
+        }
+
+        .language-controls { display: flex; align-items: center; gap: 14px; }
+
+        .lang-select {
+            width: auto;
+            min-width: 116px;
+            min-height: 40px;
+            padding: 6px 10px;
+            font-size: .86rem;
+        }
+
+        .language-controls { display: flex; align-items: center; gap: 14px; }
+
+        .lang-select {
+            width: auto;
+            min-width: 116px;
+            min-height: 40px;
+            padding: 6px 10px;
+            font-size: .86rem;
         }
 
         main {
@@ -560,7 +580,8 @@
         }
 
         @media (max-width: 420px) {
-            .topbar-note { max-width: 120px; font-size: .76rem; text-align: right; }
+            .topbar-note { display: none; }
+            .language-controls { gap: 8px; }
             .intro { min-height: 248px; padding: 26px 21px; }
             h1 { font-size: 1.75rem; }
             .form-panel, .result-panel { padding: 24px 20px; }
@@ -588,136 +609,143 @@
             </span>
             <span>EcoGrid</span>
         </a>
-        <span class="topbar-note">घरगुती सौर नियोजन</span>
+        <div class="language-controls">
+            <span class="topbar-note" data-i18n="topbarNote">घरगुती सौर नियोजन</span>
+            <select id="langSelect" class="lang-select" aria-label="भाषा निवडा" data-i18n-aria="languageLabel" onchange="changeLanguage()">
+                <option value="mr">मराठी</option>
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+            </select>
+        </div>
     </header>
 
     <main id="top">
         <section class="intro" aria-labelledby="page-title">
             <div class="intro-copy">
-                <p class="eyebrow">Rooftop solar · Maharashtra</p>
-                <h1 id="page-title">EcoGrid सोलर व सेवा माहिती पोर्टल.</h1>
-                <p>क्षमता व अनुदानाचा अंदाज, विक्रेता माहिती आणि अधिकृत सेवा मार्ग एकाच ठिकाणी तपासा.</p>
+                <p class="eyebrow" data-i18n="heroEyebrow">Rooftop solar · Maharashtra</p>
+                <h1 id="page-title" data-i18n="heroTitle">EcoGrid सोलर व सेवा माहिती पोर्टल.</h1>
+                <p data-i18n="heroDescription">क्षमता व अनुदानाचा अंदाज, विक्रेता माहिती आणि अधिकृत सेवा मार्ग एकाच ठिकाणी तपासा.</p>
             </div>
         </section>
 
-        <section class="planner" aria-label="सोलर क्षमतेचा अंदाज">
+        <section class="planner" aria-label="सोलर क्षमतेचा अंदाज" data-i18n-aria="plannerLabel">
             <div class="form-panel">
-                <h2 class="section-heading">तुमची माहिती</h2>
-                <p class="section-note">अंदाजासाठी खालील तपशील भरा.</p>
+            <h2 class="section-heading" data-i18n="formTitle">तुमची माहिती</h2>
+            <p class="section-note" data-i18n="formDescription">अंदाजासाठी खालील तपशील भरा.</p>
 
                 <form id="solarForm" novalidate>
                     <div class="form-group">
-                        <label for="bill">महिन्याचे सरासरी वीज बिल</label>
+                        <label for="bill" data-i18n="billLabel">महिन्याचे सरासरी वीज बिल</label>
                         <div class="field-wrap">
                             <span class="field-prefix" aria-hidden="true">₹</span>
-                            <input class="with-prefix" type="number" id="bill" name="bill" min="1" step="1" inputmode="decimal" placeholder="उदा. 2,000" required aria-describedby="bill-hint">
+                            <input class="with-prefix" type="number" id="bill" name="bill" min="1" step="1" inputmode="decimal" placeholder="उदा. 2,000" data-i18n-placeholder="billPlaceholder" required aria-describedby="bill-hint">
                         </div>
-                        <p class="field-hint" id="bill-hint">मासिक बिलावरील रक्कम रुपये मध्ये</p>
+                        <p class="field-hint" id="bill-hint" data-i18n="billHint">मासिक बिलावरील रक्कम रुपये मध्ये</p>
                     </div>
 
                     <div class="form-group">
-                        <label for="area">उपलब्ध छताचे क्षेत्रफळ</label>
+                        <label for="area" data-i18n="areaLabel">उपलब्ध छताचे क्षेत्रफळ</label>
                         <div class="field-wrap">
-                            <input class="with-suffix" type="number" id="area" name="area" min="20" step="1" inputmode="decimal" placeholder="उदा. 300" required aria-describedby="area-hint">
-                            <span class="field-suffix" aria-hidden="true">चौ. फूट</span>
+                            <input class="with-suffix" type="number" id="area" name="area" min="20" step="1" inputmode="decimal" placeholder="उदा. 300" data-i18n-placeholder="areaPlaceholder" required aria-describedby="area-hint">
+                            <span class="field-suffix" aria-hidden="true" data-i18n="areaUnit">चौ. फूट</span>
                         </div>
-                        <p class="field-hint" id="area-hint">प्रत्येक 1 kW क्षमतेसाठी अंदाजे 100 चौ. फूट</p>
+                        <p class="field-hint" id="area-hint" data-i18n="areaHint">प्रत्येक 1 kW क्षमतेसाठी अंदाजे 100 चौ. फूट</p>
                     </div>
 
                     <div class="form-group">
-                        <label for="locationType">क्षेत्राचा प्रकार</label>
+                        <label for="locationType" data-i18n="locationLabel">क्षेत्राचा प्रकार</label>
                         <select id="locationType" name="locationType">
-                            <option value="urban" data-rate="8">शहरी भाग · अंदाजे ₹8 / युनिट</option>
-                            <option value="rural" data-rate="7">ग्रामीण भाग · अंदाजे ₹7 / युनिट</option>
+                            <option value="urban" data-rate="8" data-i18n="urbanOption">शहरी भाग · अंदाजे ₹8 / युनिट</option>
+                            <option value="rural" data-rate="7" data-i18n="ruralOption">ग्रामीण भाग · अंदाजे ₹7 / युनिट</option>
                         </select>
                     </div>
 
                     <p class="error-message" id="formError" role="alert"></p>
                     <button class="calculate-button" type="submit">
-                        <span>अंदाज मोजा</span>
+                        <span data-i18n="calculateButton">अंदाज मोजा</span>
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 </form>
             </div>
 
             <section class="result-panel" aria-labelledby="result-title" aria-live="polite">
-                <p class="result-kicker">तुमचा सोलर अंदाज</p>
-                <h2 class="result-title" id="result-title">संभाव्य परिणाम</h2>
+                <p class="result-kicker" data-i18n="resultKicker">तुमचा सोलर अंदाज</p>
+                <h2 class="result-title" id="result-title" data-i18n="resultTitle">संभाव्य परिणाम</h2>
 
                 <div class="empty-state" id="emptyState">
                     <span class="sun-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
                     </span>
-                    <p>तुमची माहिती भरल्यानंतर क्षमतेचा आणि बचतीचा अंदाज इथे दिसेल.</p>
+                    <p data-i18n="emptyResult">तुमची माहिती भरल्यानंतर क्षमतेचा आणि बचतीचा अंदाज इथे दिसेल.</p>
                 </div>
 
                 <div class="results" id="results">
                     <div class="capacity-block">
                         <span class="capacity-value" id="resCapacity">—</span>
                         <span class="capacity-unit">kW</span>
-                        <span class="capacity-label">शिफारस केलेली क्षमता</span>
+                        <span class="capacity-label" data-i18n="capacityLabel">शिफारस केलेली क्षमता</span>
                     </div>
                     <div class="metric">
-                        <span class="metric-label">अंदाजे मासिक निर्मिती</span>
-                        <span class="metric-value"><span id="resGeneration">—</span> युनिट</span>
+                        <span class="metric-label" data-i18n="generationLabel">अंदाजे मासिक निर्मिती</span>
+                        <span class="metric-value"><span id="resGeneration">—</span> <span data-i18n="unitLabel">युनिट</span></span>
                     </div>
                     <div class="metric">
-                        <span class="metric-label">अंदाजे मासिक बचत</span>
+                        <span class="metric-label" data-i18n="savingsLabel">अंदाजे मासिक बचत</span>
                         <span class="metric-value savings">₹ <span id="resSavings">—</span></span>
                     </div>
                     <div class="metric">
-                        <span class="metric-label">अंदाजे केंद्रीय अनुदान*</span>
+                        <span class="metric-label" data-i18n="subsidyEstimateLabel">अंदाजे केंद्रीय अनुदान*</span>
                         <span class="metric-value">₹ <span id="resSubsidy">—</span></span>
                     </div>
                     <p class="capacity-note" id="capacityNote"></p>
                 </div>
 
-                <p class="assumption-note">हा प्राथमिक अंदाज आहे. प्रत्यक्ष निर्मिती छताची दिशा, सावली, स्थानिक दर आणि यंत्रणेच्या रचनेनुसार बदलू शकते. अनुदानाची पात्रता व अंतिम रक्कम अधिकृत पोर्टलवर तपासा.</p>
+                <p class="assumption-note" data-i18n="assumptionNote">हा प्राथमिक अंदाज आहे. प्रत्यक्ष निर्मिती छताची दिशा, सावली, स्थानिक दर आणि यंत्रणेच्या रचनेनुसार बदलू शकते. अनुदानाची पात्रता व अंतिम रक्कम अधिकृत पोर्टलवर तपासा.</p>
             </section>
         </section>
 
-        <section class="info-grid" aria-label="अनुदान आणि विक्रेता माहिती">
+        <section class="info-grid" aria-label="अनुदान आणि विक्रेता माहिती" data-i18n-aria="infoGridLabel">
             <section class="info-panel" aria-labelledby="subsidy-title">
-                <p class="result-kicker">PM Surya Ghar</p>
-                <h2 id="subsidy-title">घरगुती सोलर अनुदान</h2>
-                <p class="info-lead">सामान्य राज्यांसाठी योजनेतील केंद्रीय अनुदानाचे मार्गदर्शक दर:</p>
+                <p class="result-kicker" data-i18n="subsidyEyebrow">PM Surya Ghar</p>
+                <h2 id="subsidy-title" data-i18n="subsidyTitle">घरगुती सोलर अनुदान</h2>
+                <p class="info-lead" data-i18n="subsidyIntro">सामान्य राज्यांसाठी योजनेतील केंद्रीय अनुदानाचे मार्गदर्शक दर:</p>
                 <dl class="subsidy-tiers">
-                    <div><dt>पहिले 2 kW</dt><dd>₹30,000 प्रति kW</dd></div>
-                    <div><dt>2 kW वरील पुढील 1 kW</dt><dd>₹18,000 प्रति kW</dd></div>
-                    <div><dt>कमाल केंद्रीय अनुदान</dt><dd>₹78,000</dd></div>
+                    <div><dt data-i18n="subsidyTierOne">पहिले 2 kW</dt><dd data-i18n="subsidyRateOne">₹30,000 प्रति kW</dd></div>
+                    <div><dt data-i18n="subsidyTierTwo">2 kW वरील पुढील 1 kW</dt><dd data-i18n="subsidyRateTwo">₹18,000 प्रति kW</dd></div>
+                    <div><dt data-i18n="subsidyMaxLabel">कमाल केंद्रीय अनुदान</dt><dd>₹78,000</dd></div>
                 </dl>
-                <p class="fine-print">*पात्रता, मंजूर क्षमता आणि अनुदान वितरण अधिकृत नियमांनुसार ठरते. हा आकडा अंदाजासाठी आहे; अंतिम निर्णय योजनेच्या पोर्टलचा असेल.</p>
+                <p class="fine-print" data-i18n="subsidyFinePrint">*पात्रता, मंजूर क्षमता आणि अनुदान वितरण अधिकृत नियमांनुसार ठरते. हा आकडा अंदाजासाठी आहे; अंतिम निर्णय योजनेच्या पोर्टलचा असेल.</p>
             </section>
 
             <section class="info-panel" aria-labelledby="vendor-title">
-                <p class="result-kicker">विक्रेता निवड</p>
-                <h2 id="vendor-title">कोटेशन तपासून निवडा</h2>
-                <p class="info-lead">Tata Power Solar, Waaree, Adani Solar आणि Vikram Solar ही बाजारातील काही सोलर ब्रँडची उदाहरणे आहेत.</p>
+                <p class="result-kicker" data-i18n="vendorEyebrow">विक्रेता निवड</p>
+                <h2 id="vendor-title" data-i18n="vendorTitle">कोटेशन तपासून निवडा</h2>
+                <p class="info-lead" data-i18n="vendorIntro">Tata Power Solar, Waaree, Adani Solar आणि Vikram Solar ही बाजारातील काही सोलर ब्रँडची उदाहरणे आहेत.</p>
                 <ul class="brand-list">
-                    <li>तुमच्या क्षेत्रातील विक्रेता अधिकृत पोर्टलवर नोंदणीकृत आहे का ते तपासा.</li>
-                    <li>पॅनेल, इन्व्हर्टर, बसवण्याचा खर्च आणि वॉरंटी यांची लेखी तुलना करा.</li>
-                    <li>एकच निश्चित प्रति-kW किंमत गृहीत धरू नका; प्रत्यक्ष खर्च जागा व साहित्यावर अवलंबून असतो.</li>
+                    <li data-i18n="vendorTipOne">तुमच्या क्षेत्रातील विक्रेता अधिकृत पोर्टलवर नोंदणीकृत आहे का ते तपासा.</li>
+                    <li data-i18n="vendorTipTwo">पॅनेल, इन्व्हर्टर, बसवण्याचा खर्च आणि वॉरंटी यांची लेखी तुलना करा.</li>
+                    <li data-i18n="vendorTipThree">एकच निश्चित प्रति-kW किंमत गृहीत धरू नका; प्रत्यक्ष खर्च जागा व साहित्यावर अवलंबून असतो.</li>
                 </ul>
             </section>
         </section>
 
         <section class="apply-strip" aria-labelledby="apply-title">
             <div class="apply-copy">
-                <h2 id="apply-title">अधिकृत पोर्टलवरून अर्ज करा</h2>
-                <p>EcoGrid हे माहिती व अंदाजासाठीचे साधन आहे. येथे वैयक्तिक किंवा वीज ग्राहक तपशील घेतले जात नाहीत आणि अर्जाची वेळ निश्चित केली जात नाही. पात्रता, नोंदणी व अर्जाची सद्यस्थिती सरकारी पोर्टलवर तपासा.</p>
+                <h2 id="apply-title" data-i18n="applyTitle">अधिकृत पोर्टलवरून अर्ज करा</h2>
+                <p data-i18n="applyDescription">EcoGrid हे माहिती व अंदाजासाठीचे साधन आहे. येथे वैयक्तिक किंवा वीज ग्राहक तपशील घेतले जात नाहीत आणि अर्जाची वेळ निश्चित केली जात नाही. पात्रता, नोंदणी व अर्जाची सद्यस्थिती सरकारी पोर्टलवर तपासा.</p>
             </div>
             <a class="apply-link" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">
-                <span>PM Surya Ghar पोर्टल</span>
+                <span data-i18n="applyButton">PM Surya Ghar पोर्टल</span>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6m-1-5-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
         </section>
 
         <section class="portal-section" aria-labelledby="pricing-title">
-            <h2 class="portal-heading" id="pricing-title">3 kW सिस्टीम: उदाहरणात्मक किंमत तुलना</h2>
-            <p class="portal-description">खालील दर तुमच्या मसुद्यातील उदाहरणे आहेत; विक्रेत्यांकडून स्वतंत्रपणे पडताळलेले किंवा हमी दिलेले कोटेशन नाहीत.</p>
+            <h2 class="portal-heading" id="pricing-title" data-i18n="pricingTitle">3 kW सिस्टीम: उदाहरणात्मक किंमत तुलना</h2>
+            <p class="portal-description" data-i18n="pricingDescription">खालील दर तुमच्या मसुद्यातील उदाहरणे आहेत; विक्रेत्यांकडून स्वतंत्रपणे पडताळलेले किंवा हमी दिलेले कोटेशन नाहीत.</p>
             <div class="vendor-table-wrap">
                 <table class="vendor-table">
-                    <thead><tr><th scope="col">ब्रँड</th><th scope="col">मसुद्यातील दर्शवलेली किंमत</th><th scope="col">₹78,000 अनुदान वजा केल्यावर*</th></tr></thead>
+                    <thead><tr><th scope="col" data-i18n="tableBrand">ब्रँड</th><th scope="col" data-i18n="tablePrice">मसुद्यातील दर्शवलेली किंमत</th><th scope="col" data-i18n="tableAfterSubsidy">₹78,000 अनुदान वजा केल्यावर*</th></tr></thead>
                     <tbody>
                         <tr><td>Tata Power Solar</td><td>₹1,80,000</td><td>₹1,02,000</td></tr>
                         <tr><td>Waaree Energies</td><td>₹1,70,000</td><td>₹92,000</td></tr>
@@ -726,24 +754,24 @@
                     </tbody>
                 </table>
             </div>
-            <p class="fine-print">*₹78,000 हे पात्र 3 kW निवासी यंत्रणेसाठी कमाल केंद्रीय अनुदानाचे उदाहरण आहे. प्रत्यक्ष किंमत, पात्रता, मंजूर क्षमता, कर व कामाचा समावेश यानुसार अंतिम रक्कम बदलेल. निर्णयापूर्वी अधिकृत नोंदणीकृत विक्रेत्याकडून लेखी कोटेशन घ्या.</p>
+            <p class="fine-print" data-i18n="pricingFinePrint">*₹78,000 हे पात्र 3 kW निवासी यंत्रणेसाठी कमाल केंद्रीय अनुदानाचे उदाहरण आहे. प्रत्यक्ष किंमत, पात्रता, मंजूर क्षमता, कर व कामाचा समावेश यानुसार अंतिम रक्कम बदलेल. निर्णयापूर्वी अधिकृत नोंदणीकृत विक्रेत्याकडून लेखी कोटेशन घ्या.</p>
         </section>
 
         <section class="portal-section" aria-labelledby="services-title">
-            <h2 class="portal-heading" id="services-title">अर्ज, स्थिती व तक्रार सेवा</h2>
-            <p class="portal-description">ही वेबसाइट सरकारी अर्ज किंवा वीज वितरण कंपनीच्या प्रणालीशी जोडलेली नाही. तुमचे अर्ज क्रमांक किंवा वैयक्तिक माहिती इथे भरू नका.</p>
+            <h2 class="portal-heading" id="services-title" data-i18n="servicesTitle">अर्ज, स्थिती व तक्रार सेवा</h2>
+            <p class="portal-description" data-i18n="servicesDescription">ही वेबसाइट सरकारी अर्ज किंवा वीज वितरण कंपनीच्या प्रणालीशी जोडलेली नाही. तुमचे अर्ज क्रमांक किंवा वैयक्तिक माहिती इथे भरू नका.</p>
             <div class="portal-grid">
                 <section class="portal-card" aria-labelledby="application-status-title">
-                    <h3 id="application-status-title">अर्ज करा किंवा स्थिती तपासा</h3>
-                    <p>नवीन अर्ज, अर्जाची सद्यस्थिती आणि अनुदानाशी संबंधित माहितीसाठी अधिकृत PM Surya Ghar पोर्टल वापरा.</p>
-                    <a class="portal-action" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">अधिकृत पोर्टल उघडा</a>
-                    <div class="status-notice">EcoGrid अर्ज क्रमांक तयार करत नाही. बसवण्याची तारीख किंवा 15 दिवसांची हमी देत नाही.</div>
+                    <h3 id="application-status-title" data-i18n="statusCardTitle">अर्ज करा किंवा स्थिती तपासा</h3>
+                    <p data-i18n="statusCardDescription">नवीन अर्ज, अर्जाची सद्यस्थिती आणि अनुदानाशी संबंधित माहितीसाठी अधिकृत PM Surya Ghar पोर्टल वापरा.</p>
+                    <a class="portal-action" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer" data-i18n="officialPortalButton">अधिकृत पोर्टल उघडा</a>
+                    <div class="status-notice" data-i18n="statusNotice">EcoGrid अर्ज क्रमांक तयार करत नाही. बसवण्याची तारीख किंवा 15 दिवसांची हमी देत नाही.</div>
                 </section>
                 <section class="portal-card" aria-labelledby="complaint-title">
-                    <h3 id="complaint-title">वीज सेवा व तक्रारी</h3>
-                    <p>बिल, मीटर किंवा वीजपुरवठ्याच्या तक्रारीसाठी तुमच्या वीज वितरण कंपनीचे अधिकृत ग्राहक सेवा माध्यम वापरा.</p>
-                    <a class="portal-action" href="https://www.mahadiscom.in/" target="_blank" rel="noopener noreferrer">महावितरणची अधिकृत वेबसाइट</a>
-                    <div class="status-notice">या पृष्ठावर तक्रार साठवली किंवा पाठवली जात नाही; निवारण कालावधीची हमी उपलब्ध नाही.</div>
+                    <h3 id="complaint-title" data-i18n="complaintTitle">वीज सेवा व तक्रारी</h3>
+                    <p data-i18n="complaintDescription">बिल, मीटर किंवा वीजपुरवठ्याच्या तक्रारीसाठी तुमच्या वीज वितरण कंपनीचे अधिकृत ग्राहक सेवा माध्यम वापरा.</p>
+                    <a class="portal-action" href="https://www.mahadiscom.in/" target="_blank" rel="noopener noreferrer" data-i18n="utilityButton">महावितरणची अधिकृत वेबसाइट</a>
+                    <div class="status-notice" data-i18n="complaintNotice">या पृष्ठावर तक्रार साठवली किंवा पाठवली जात नाही; निवारण कालावधीची हमी उपलब्ध नाही.</div>
                 </section>
             </div>
         </section>
@@ -751,35 +779,340 @@
         <section class="portal-section meter-panel" aria-labelledby="meter-title">
             <div class="meter-heading">
                 <div>
-                    <h2 class="portal-heading" id="meter-title">स्मार्ट मीटर व देखभाल डॅशबोर्ड</h2>
-                    <p class="portal-description">IoT डेटा जोडलेला नसल्यास प्रत्यक्ष निर्मिती किंवा सर्व्हिसिंग स्थिती दाखवता येत नाही.</p>
+                    <h2 class="portal-heading" id="meter-title" data-i18n="meterTitle">स्मार्ट मीटर व देखभाल डॅशबोर्ड</h2>
+                    <p class="portal-description" data-i18n="meterDescription">IoT डेटा जोडलेला नसल्यास प्रत्यक्ष निर्मिती किंवा सर्व्हिसिंग स्थिती दाखवता येत नाही.</p>
                 </div>
-                <span class="demo-badge">DEMO DATA · LIVE नाही</span>
+                <span class="demo-badge" data-i18n="demoBadge">DEMO DATA · LIVE नाही</span>
             </div>
-            <div class="meter-grid" aria-label="उदाहरणात्मक मीटर वाचन">
-                <div class="meter-reading"><span class="meter-label">उदाहरण: आजची निर्मिती</span><span class="meter-value">14.2 <small>kWh</small></span></div>
-                <div class="meter-reading"><span class="meter-label">उदाहरण: आजचा वापर</span><span class="meter-value">8.5 <small>kWh</small></span></div>
-                <div class="meter-reading"><span class="meter-label">उदाहरण: ग्रिडकडे निर्यात</span><span class="meter-value">5.7 <small>kWh</small></span></div>
+            <div class="meter-grid" aria-label="उदाहरणात्मक मीटर वाचन" data-i18n-aria="meterGridLabel">
+                <div class="meter-reading"><span class="meter-label" data-i18n="meterGenerated">उदाहरण: आजची निर्मिती</span><span class="meter-value">14.2 <small>kWh</small></span></div>
+                <div class="meter-reading"><span class="meter-label" data-i18n="meterConsumed">उदाहरण: आजचा वापर</span><span class="meter-value">8.5 <small>kWh</small></span></div>
+                <div class="meter-reading"><span class="meter-label" data-i18n="meterExported">उदाहरण: ग्रिडकडे निर्यात</span><span class="meter-value">5.7 <small>kWh</small></span></div>
             </div>
-            <p class="meter-note">वरील आकडे केवळ डिझाइनसाठीचे नमुना डेटा आहेत. प्रत्यक्ष मीटर, उत्पादन किंवा वॉरंटी स्थितीचे प्रतिनिधित्व करत नाहीत. स्वच्छता व देखभाल वेळापत्रकासाठी तुमच्या विक्रेत्याच्या सूचना तपासा.</p>
+            <p class="meter-note" data-i18n="meterNote">वरील आकडे केवळ डिझाइनसाठीचे नमुना डेटा आहेत. प्रत्यक्ष मीटर, उत्पादन किंवा वॉरंटी स्थितीचे प्रतिनिधित्व करत नाहीत. स्वच्छता व देखभाल वेळापत्रकासाठी तुमच्या विक्रेत्याच्या सूचना तपासा.</p>
         </section>
     </main>
 
     <footer>
         <span>© 2026 Seva First Innovation Challenge</span>
-        <span>स्वच्छ ऊर्जेकडे एक पाऊल</span>
+        <span data-i18n="footerNote">स्वच्छ ऊर्जेकडे एक पाऊल</span>
     </footer>
 
     <script>
+        const translations = {
+            mr: {
+                pageTitle: "EcoGrid | सोलर व सेवा माहिती पोर्टल",
+                pageDescription: "वीज बिल आणि छताच्या क्षेत्रफळानुसार सोलर क्षमतेचा अंदाज आणि अधिकृत सेवा मार्ग तपासा.",
+                topbarNote: "घरगुती सौर नियोजन",
+                languageLabel: "भाषा निवडा",
+                heroEyebrow: "Rooftop solar · Maharashtra",
+                heroTitle: "EcoGrid सोलर व सेवा माहिती पोर्टल.",
+                heroDescription: "क्षमता व अनुदानाचा अंदाज, विक्रेता माहिती आणि अधिकृत सेवा मार्ग एकाच ठिकाणी तपासा.",
+                plannerLabel: "सोलर क्षमतेचा अंदाज",
+                formTitle: "तुमची माहिती",
+                formDescription: "अंदाजासाठी खालील तपशील भरा.",
+                billLabel: "महिन्याचे सरासरी वीज बिल",
+                billPlaceholder: "उदा. 2,000",
+                billHint: "मासिक बिलावरील रक्कम रुपये मध्ये",
+                areaLabel: "उपलब्ध छताचे क्षेत्रफळ",
+                areaPlaceholder: "उदा. 300",
+                areaUnit: "चौ. फूट",
+                areaHint: "प्रत्येक 1 kW क्षमतेसाठी अंदाजे 100 चौ. फूट",
+                locationLabel: "क्षेत्राचा प्रकार",
+                urbanOption: "शहरी भाग · अंदाजे ₹8 / युनिट",
+                ruralOption: "ग्रामीण भाग · अंदाजे ₹7 / युनिट",
+                calculateButton: "अंदाज मोजा",
+                resultKicker: "तुमचा सोलर अंदाज",
+                resultTitle: "संभाव्य परिणाम",
+                emptyResult: "तुमची माहिती भरल्यानंतर क्षमतेचा आणि बचतीचा अंदाज इथे दिसेल.",
+                capacityLabel: "शिफारस केलेली क्षमता",
+                generationLabel: "अंदाजे मासिक निर्मिती",
+                unitLabel: "युनिट",
+                savingsLabel: "अंदाजे मासिक बचत",
+                subsidyEstimateLabel: "अंदाजे केंद्रीय अनुदान*",
+                assumptionNote: "हा प्राथमिक अंदाज आहे. प्रत्यक्ष निर्मिती छताची दिशा, सावली, स्थानिक दर आणि यंत्रणेच्या रचनेनुसार बदलू शकते. अनुदानाची पात्रता व अंतिम रक्कम अधिकृत पोर्टलवर तपासा.",
+                infoGridLabel: "अनुदान आणि विक्रेता माहिती",
+                subsidyEyebrow: "PM Surya Ghar",
+                subsidyTitle: "घरगुती सोलर अनुदान",
+                subsidyIntro: "सामान्य राज्यांसाठी योजनेतील केंद्रीय अनुदानाचे मार्गदर्शक दर:",
+                subsidyTierOne: "पहिले 2 kW",
+                subsidyRateOne: "₹30,000 प्रति kW",
+                subsidyTierTwo: "2 kW वरील पुढील 1 kW",
+                subsidyRateTwo: "₹18,000 प्रति kW",
+                subsidyMaxLabel: "कमाल केंद्रीय अनुदान",
+                subsidyFinePrint: "*पात्रता, मंजूर क्षमता आणि अनुदान वितरण अधिकृत नियमांनुसार ठरते. हा आकडा अंदाजासाठी आहे; अंतिम निर्णय योजनेच्या पोर्टलचा असेल.",
+                vendorEyebrow: "विक्रेता निवड",
+                vendorTitle: "कोटेशन तपासून निवडा",
+                vendorIntro: "Tata Power Solar, Waaree, Adani Solar आणि Vikram Solar ही बाजारातील काही सोलर ब्रँडची उदाहरणे आहेत.",
+                vendorTipOne: "तुमच्या क्षेत्रातील विक्रेता अधिकृत पोर्टलवर नोंदणीकृत आहे का ते तपासा.",
+                vendorTipTwo: "पॅनेल, इन्व्हर्टर, बसवण्याचा खर्च आणि वॉरंटी यांची लेखी तुलना करा.",
+                vendorTipThree: "एकच निश्चित प्रति-kW किंमत गृहीत धरू नका; प्रत्यक्ष खर्च जागा व साहित्यावर अवलंबून असतो.",
+                applyTitle: "अधिकृत पोर्टलवरून अर्ज करा",
+                applyDescription: "EcoGrid हे माहिती व अंदाजासाठीचे साधन आहे. येथे वैयक्तिक किंवा वीज ग्राहक तपशील घेतले जात नाहीत आणि अर्जाची वेळ निश्चित केली जात नाही. पात्रता, नोंदणी व अर्जाची सद्यस्थिती सरकारी पोर्टलवर तपासा.",
+                applyButton: "PM Surya Ghar पोर्टल",
+                pricingTitle: "3 kW सिस्टीम: उदाहरणात्मक किंमत तुलना",
+                pricingDescription: "खालील दर तुमच्या मसुद्यातील उदाहरणे आहेत; विक्रेत्यांकडून स्वतंत्रपणे पडताळलेले किंवा हमी दिलेले कोटेशन नाहीत.",
+                tableBrand: "ब्रँड",
+                tablePrice: "मसुद्यातील दर्शवलेली किंमत",
+                tableAfterSubsidy: "₹78,000 अनुदान वजा केल्यावर*",
+                pricingFinePrint: "*₹78,000 हे पात्र 3 kW निवासी यंत्रणेसाठी कमाल केंद्रीय अनुदानाचे उदाहरण आहे. प्रत्यक्ष किंमत, पात्रता, मंजूर क्षमता, कर व कामाचा समावेश यानुसार अंतिम रक्कम बदलेल. निर्णयापूर्वी अधिकृत नोंदणीकृत विक्रेत्याकडून लेखी कोटेशन घ्या.",
+                servicesTitle: "अर्ज, स्थिती व तक्रार सेवा",
+                servicesDescription: "ही वेबसाइट सरकारी अर्ज किंवा वीज वितरण कंपनीच्या प्रणालीशी जोडलेली नाही. तुमचे अर्ज क्रमांक किंवा वैयक्तिक माहिती इथे भरू नका.",
+                statusCardTitle: "अर्ज करा किंवा स्थिती तपासा",
+                statusCardDescription: "नवीन अर्ज, अर्जाची सद्यस्थिती आणि अनुदानाशी संबंधित माहितीसाठी अधिकृत PM Surya Ghar पोर्टल वापरा.",
+                officialPortalButton: "अधिकृत पोर्टल उघडा",
+                statusNotice: "EcoGrid अर्ज क्रमांक तयार करत नाही. बसवण्याची तारीख किंवा 15 दिवसांची हमी देत नाही.",
+                complaintTitle: "वीज सेवा व तक्रारी",
+                complaintDescription: "बिल, मीटर किंवा वीजपुरवठ्याच्या तक्रारीसाठी तुमच्या वीज वितरण कंपनीचे अधिकृत ग्राहक सेवा माध्यम वापरा.",
+                utilityButton: "महावितरणची अधिकृत वेबसाइट",
+                complaintNotice: "या पृष्ठावर तक्रार साठवली किंवा पाठवली जात नाही; निवारण कालावधीची हमी उपलब्ध नाही.",
+                meterTitle: "स्मार्ट मीटर व देखभाल डॅशबोर्ड",
+                meterDescription: "IoT डेटा जोडलेला नसल्यास प्रत्यक्ष निर्मिती किंवा सर्व्हिसिंग स्थिती दाखवता येत नाही.",
+                demoBadge: "DEMO DATA · LIVE नाही",
+                meterGridLabel: "उदाहरणात्मक मीटर वाचन",
+                meterGenerated: "उदाहरण: आजची निर्मिती",
+                meterConsumed: "उदाहरण: आजचा वापर",
+                meterExported: "उदाहरण: ग्रिडकडे निर्यात",
+                meterNote: "वरील आकडे केवळ डिझाइनसाठीचे नमुना डेटा आहेत. प्रत्यक्ष मीटर, उत्पादन किंवा वॉरंटी स्थितीचे प्रतिनिधित्व करत नाहीत. स्वच्छता व देखभाल वेळापत्रकासाठी तुमच्या विक्रेत्याच्या सूचना तपासा.",
+                footerNote: "स्वच्छ ऊर्जेकडे एक पाऊल",
+                validationError: "कृपया वीज बिल आणि किमान 20 चौ. फूट छताचे क्षेत्रफळ भरा.",
+                areaLimited: "उपलब्ध छताच्या क्षेत्रामुळे क्षमता {capacity} kW पर्यंत मर्यादित आहे.",
+                areaSufficient: "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे."
+            },
+            en: {
+                pageTitle: "EcoGrid | Solar and Services Portal",
+                pageDescription: "Estimate rooftop solar capacity and find official solar scheme and service links.",
+                topbarNote: "Home solar planning",
+                languageLabel: "Choose language",
+                heroEyebrow: "Rooftop solar · Maharashtra",
+                heroTitle: "EcoGrid solar and services portal.",
+                heroDescription: "Estimate system capacity and subsidy, compare vendor information, and find official service links.",
+                plannerLabel: "Solar capacity estimate",
+                formTitle: "Your details",
+                formDescription: "Enter a few details for an estimate.",
+                billLabel: "Average monthly electricity bill",
+                billPlaceholder: "e.g. 2,000",
+                billHint: "Enter the monthly bill amount in rupees",
+                areaLabel: "Available roof area",
+                areaPlaceholder: "e.g. 300",
+                areaUnit: "sq. ft.",
+                areaHint: "Allow about 100 sq. ft. for each 1 kW of capacity",
+                locationLabel: "Area type",
+                urbanOption: "Urban · estimated ₹8 / unit",
+                ruralOption: "Rural · estimated ₹7 / unit",
+                calculateButton: "Calculate estimate",
+                resultKicker: "Your solar estimate",
+                resultTitle: "Estimated results",
+                emptyResult: "Your recommended capacity and estimated savings will appear here.",
+                capacityLabel: "Recommended capacity",
+                generationLabel: "Estimated monthly generation",
+                unitLabel: "units",
+                savingsLabel: "Estimated monthly savings",
+                subsidyEstimateLabel: "Estimated central subsidy*",
+                assumptionNote: "This is a preliminary estimate. Actual generation varies with roof orientation, shade, local tariffs, and system design. Check subsidy eligibility and final amounts on the official portal.",
+                infoGridLabel: "Subsidy and vendor information",
+                subsidyEyebrow: "PM Surya Ghar",
+                subsidyTitle: "Residential solar subsidy",
+                subsidyIntro: "Guideline central subsidy rates for general states:",
+                subsidyTierOne: "First 2 kW",
+                subsidyRateOne: "₹30,000 per kW",
+                subsidyTierTwo: "Next 1 kW above 2 kW",
+                subsidyRateTwo: "₹18,000 per kW",
+                subsidyMaxLabel: "Maximum central subsidy",
+                subsidyFinePrint: "*Eligibility, approved capacity, and disbursement are governed by the official scheme rules. This is an estimate; the scheme portal has the final say.",
+                vendorEyebrow: "Choosing a vendor",
+                vendorTitle: "Compare written quotes",
+                vendorIntro: "Tata Power Solar, Waaree, Adani Solar, and Vikram Solar are examples of solar brands in the market.",
+                vendorTipOne: "Check that the vendor serving your area is registered on the official portal.",
+                vendorTipTwo: "Compare panels, inverter, installation costs, and warranties in writing.",
+                vendorTipThree: "Do not assume a fixed price per kW; final costs depend on the site and equipment.",
+                applyTitle: "Apply through the official portal",
+                applyDescription: "EcoGrid provides information and estimates only. It does not collect personal or electricity-account details, and it cannot promise an application timeline. Check eligibility, registration, and application status on the government portal.",
+                applyButton: "PM Surya Ghar portal",
+                pricingTitle: "3 kW system: illustrative price comparison",
+                pricingDescription: "These prices are examples from the supplied draft; they are not independently verified or guaranteed quotes from the vendors.",
+                tableBrand: "Brand",
+                tablePrice: "Price shown in draft",
+                tableAfterSubsidy: "After deducting ₹78,000 subsidy*",
+                pricingFinePrint: "*₹78,000 is an example of the maximum central subsidy for an eligible 3 kW residential system. Final costs vary by price, eligibility, approved capacity, taxes, and scope of work. Get a written quote from an officially registered vendor before deciding.",
+                servicesTitle: "Applications, status, and complaints",
+                servicesDescription: "This website is not connected to government application systems or electricity distributors. Do not enter application numbers or personal information here.",
+                statusCardTitle: "Apply or check application status",
+                statusCardDescription: "Use the official PM Surya Ghar portal for new applications, application status, and subsidy information.",
+                officialPortalButton: "Open official portal",
+                statusNotice: "EcoGrid does not issue application numbers or guarantee installation dates or a 15-day timeline.",
+                complaintTitle: "Electricity service and complaints",
+                complaintDescription: "For billing, meter, or power-supply complaints, use the official customer service channel of your electricity distributor.",
+                utilityButton: "Official Mahavitaran website",
+                complaintNotice: "Complaints are not stored or submitted here; no resolution timeline is guaranteed.",
+                meterTitle: "Smart meter and maintenance dashboard",
+                meterDescription: "Actual generation and service status require a connected IoT data source.",
+                demoBadge: "DEMO DATA · NOT LIVE",
+                meterGridLabel: "Sample meter readings",
+                meterGenerated: "Example: generated today",
+                meterConsumed: "Example: consumed today",
+                meterExported: "Example: exported to grid",
+                meterNote: "These figures are sample data for design purposes only. They do not represent an actual meter, generation, or warranty status. Check your vendor's guidance for cleaning and maintenance schedules.",
+                footerNote: "A step toward clean energy",
+                validationError: "Enter a valid bill amount and at least 20 sq. ft. of available roof area.",
+                areaLimited: "Available roof area limits the system to {capacity} kW.",
+                areaSufficient: "Available roof area is sufficient for this capacity."
+            },
+            hi: {
+                pageTitle: "EcoGrid | सोलर और सेवा पोर्टल",
+                pageDescription: "सोलर क्षमता का अनुमान लगाएँ और सरकारी योजना तथा सेवा के आधिकारिक लिंक देखें।",
+                topbarNote: "घरेलू सोलर योजना",
+                languageLabel: "भाषा चुनें",
+                heroEyebrow: "रूफटॉप सोलर · महाराष्ट्र",
+                heroTitle: "EcoGrid सोलर और सेवा जानकारी पोर्टल।",
+                heroDescription: "सिस्टम क्षमता और सब्सिडी का अनुमान पाएँ, विक्रेता जानकारी देखें और आधिकारिक सेवा लिंक खोजें।",
+                plannerLabel: "सोलर क्षमता का अनुमान",
+                formTitle: "आपकी जानकारी",
+                formDescription: "अनुमान पाने के लिए कुछ जानकारी भरें।",
+                billLabel: "औसत मासिक बिजली बिल",
+                billPlaceholder: "जैसे 2,000",
+                billHint: "मासिक बिल की राशि रुपये में भरें",
+                areaLabel: "उपलब्ध छत का क्षेत्रफल",
+                areaPlaceholder: "जैसे 300",
+                areaUnit: "वर्ग फुट",
+                areaHint: "हर 1 kW क्षमता के लिए लगभग 100 वर्ग फुट जगह रखें",
+                locationLabel: "क्षेत्र का प्रकार",
+                urbanOption: "शहरी · अनुमानित ₹8 / यूनिट",
+                ruralOption: "ग्रामीण · अनुमानित ₹7 / यूनिट",
+                calculateButton: "अनुमान निकालें",
+                resultKicker: "आपका सोलर अनुमान",
+                resultTitle: "अनुमानित परिणाम",
+                emptyResult: "आपकी सुझाई गई क्षमता और अनुमानित बचत यहाँ दिखाई देगी।",
+                capacityLabel: "सुझाई गई क्षमता",
+                generationLabel: "अनुमानित मासिक उत्पादन",
+                unitLabel: "यूनिट",
+                savingsLabel: "अनुमानित मासिक बचत",
+                subsidyEstimateLabel: "अनुमानित केंद्रीय सब्सिडी*",
+                assumptionNote: "यह प्रारंभिक अनुमान है। वास्तविक उत्पादन छत की दिशा, छाया, स्थानीय दरों और सिस्टम डिज़ाइन पर निर्भर करता है। पात्रता और अंतिम सब्सिडी राशि आधिकारिक पोर्टल पर जाँचें।",
+                infoGridLabel: "सब्सिडी और विक्रेता की जानकारी",
+                subsidyEyebrow: "PM Surya Ghar",
+                subsidyTitle: "घरेलू सोलर सब्सिडी",
+                subsidyIntro: "सामान्य राज्यों के लिए केंद्रीय सब्सिडी की मार्गदर्शक दरें:",
+                subsidyTierOne: "पहले 2 kW",
+                subsidyRateOne: "₹30,000 प्रति kW",
+                subsidyTierTwo: "2 kW से ऊपर अगला 1 kW",
+                subsidyRateTwo: "₹18,000 प्रति kW",
+                subsidyMaxLabel: "अधिकतम केंद्रीय सब्सिडी",
+                subsidyFinePrint: "*पात्रता, स्वीकृत क्षमता और भुगतान आधिकारिक योजना के नियमों के अनुसार तय होते हैं। यह अनुमान है; अंतिम निर्णय योजना पोर्टल का होगा।",
+                vendorEyebrow: "विक्रेता चुनें",
+                vendorTitle: "लिखित कोटेशन की तुलना करें",
+                vendorIntro: "Tata Power Solar, Waaree, Adani Solar और Vikram Solar बाज़ार में उपलब्ध सोलर ब्रांड के उदाहरण हैं।",
+                vendorTipOne: "जाँचें कि आपके क्षेत्र का विक्रेता आधिकारिक पोर्टल पर पंजीकृत है।",
+                vendorTipTwo: "पैनल, इन्वर्टर, इंस्टॉलेशन खर्च और वारंटी की लिखित तुलना करें।",
+                vendorTipThree: "प्रति kW एक निश्चित कीमत न मानें; वास्तविक खर्च जगह और उपकरणों पर निर्भर करता है।",
+                applyTitle: "आधिकारिक पोर्टल से आवेदन करें",
+                applyDescription: "EcoGrid केवल जानकारी और अनुमान देता है। यह व्यक्तिगत या बिजली-खाता विवरण नहीं लेता और आवेदन की समय-सीमा की गारंटी नहीं देता। पात्रता, पंजीकरण और आवेदन की स्थिति सरकारी पोर्टल पर जाँचें।",
+                applyButton: "PM Surya Ghar पोर्टल",
+                pricingTitle: "3 kW सिस्टम: उदाहरण के लिए कीमतों की तुलना",
+                pricingDescription: "ये दिए गए मसौदे के उदाहरण हैं; विक्रेताओं के स्वतंत्र रूप से सत्यापित या गारंटीकृत कोटेशन नहीं हैं।",
+                tableBrand: "ब्रांड",
+                tablePrice: "मसौदे में दिखाई गई कीमत",
+                tableAfterSubsidy: "₹78,000 सब्सिडी घटाने के बाद*",
+                pricingFinePrint: "*₹78,000 पात्र 3 kW घरेलू सिस्टम के लिए अधिकतम केंद्रीय सब्सिडी का उदाहरण है। अंतिम लागत कीमत, पात्रता, स्वीकृत क्षमता, कर और कार्य-क्षेत्र के अनुसार बदल सकती है। निर्णय से पहले आधिकारिक रूप से पंजीकृत विक्रेता से लिखित कोटेशन लें।",
+                servicesTitle: "आवेदन, स्थिति और शिकायत सेवाएँ",
+                servicesDescription: "यह वेबसाइट सरकारी आवेदन प्रणाली या बिजली वितरण कंपनी से जुड़ी नहीं है। यहाँ आवेदन संख्या या व्यक्तिगत जानकारी न भरें।",
+                statusCardTitle: "आवेदन करें या स्थिति जाँचें",
+                statusCardDescription: "नए आवेदन, आवेदन की स्थिति और सब्सिडी की जानकारी के लिए आधिकारिक PM Surya Ghar पोर्टल का उपयोग करें।",
+                officialPortalButton: "आधिकारिक पोर्टल खोलें",
+                statusNotice: "EcoGrid आवेदन संख्या जारी नहीं करता और इंस्टॉलेशन की तारीख या 15-दिन की समय-सीमा की गारंटी नहीं देता।",
+                complaintTitle: "बिजली सेवा और शिकायतें",
+                complaintDescription: "बिल, मीटर या बिजली आपूर्ति की शिकायतों के लिए अपने बिजली वितरक के आधिकारिक ग्राहक सेवा माध्यम का उपयोग करें।",
+                utilityButton: "महावितरण की आधिकारिक वेबसाइट",
+                complaintNotice: "यहाँ शिकायतें जमा या भेजी नहीं जातीं; समाधान की समय-सीमा की कोई गारंटी नहीं है।",
+                meterTitle: "स्मार्ट मीटर और रखरखाव डैशबोर्ड",
+                meterDescription: "वास्तविक उत्पादन और सेवा की स्थिति दिखाने के लिए जुड़ा हुआ IoT डेटा आवश्यक है।",
+                demoBadge: "डेमो डेटा · लाइव नहीं",
+                meterGridLabel: "मीटर रीडिंग का उदाहरण",
+                meterGenerated: "उदाहरण: आज का उत्पादन",
+                meterConsumed: "उदाहरण: आज की खपत",
+                meterExported: "उदाहरण: ग्रिड को भेजी गई बिजली",
+                meterNote: "ये आँकड़े केवल डिज़ाइन के नमूने हैं। ये वास्तविक मीटर, उत्पादन या वारंटी की स्थिति नहीं दिखाते। सफाई और रखरखाव के लिए अपने विक्रेता के निर्देश देखें।",
+                footerNote: "स्वच्छ ऊर्जा की ओर एक कदम",
+                validationError: "बिजली बिल की सही राशि और कम से कम 20 वर्ग फुट छत का क्षेत्रफल भरें।",
+                areaLimited: "उपलब्ध छत का क्षेत्र सिस्टम को {capacity} kW तक सीमित करता है।",
+                areaSufficient: "उपलब्ध छत का क्षेत्र इस क्षमता के लिए पर्याप्त है।"
+            }
+        };
+
         const form = document.getElementById("solarForm");
         const errorMessage = document.getElementById("formError");
         const results = document.getElementById("results");
         const emptyState = document.getElementById("emptyState");
         const capacityNote = document.getElementById("capacityNote");
+        const languageSelect = document.getElementById("langSelect");
+        const localeByLanguage = { mr: "mr-IN", en: "en-IN", hi: "hi-IN" };
+        let currentLanguage = "mr";
+        let lastEstimate = null;
+        let hasValidationError = false;
+
+        function translate(key) {
+            return translations[currentLanguage][key];
+        }
+
+        function changeLanguage() {
+            if (!translations[languageSelect.value]) return;
+
+            currentLanguage = languageSelect.value;
+            document.documentElement.lang = currentLanguage;
+            document.title = translate("pageTitle");
+            document.querySelector("meta[name='description']").content = translate("pageDescription");
+
+            document.querySelectorAll("[data-i18n]").forEach((element) => {
+                element.textContent = translate(element.dataset.i18n);
+            });
+            document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+                element.placeholder = translate(element.dataset.i18nPlaceholder);
+            });
+            document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+                element.setAttribute("aria-label", translate(element.dataset.i18nAria));
+            });
+
+            if (hasValidationError) errorMessage.textContent = translate("validationError");
+            if (lastEstimate) renderEstimate(lastEstimate);
+
+            try {
+                localStorage.setItem("ecogrid-language", currentLanguage);
+            } catch {}
+        }
+
+        function renderEstimate(estimate) {
+            const locale = localeByLanguage[currentLanguage];
+            const formatNumber = (value) => new Intl.NumberFormat(locale).format(Math.round(value));
+            const formattedCapacity = estimate.capacity.toLocaleString(locale, {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+            });
+
+            document.getElementById("resCapacity").textContent = formattedCapacity;
+            document.getElementById("resGeneration").textContent = formatNumber(estimate.monthlyGeneration);
+            document.getElementById("resSavings").textContent = formatNumber(estimate.savings);
+            document.getElementById("resSubsidy").textContent = formatNumber(estimate.subsidy);
+            capacityNote.textContent = estimate.areaLimited
+                ? translate("areaLimited").replace("{capacity}", formattedCapacity)
+                : translate("areaSufficient");
+        }
+
+        function setLanguageFromStorage() {
+            try {
+                const savedLanguage = localStorage.getItem("ecogrid-language");
+                if (translations[savedLanguage]) {
+                    languageSelect.value = savedLanguage;
+                    changeLanguage();
+                }
+            } catch {}
+        }
+
+        window.changeLanguage = changeLanguage;
 
         form.addEventListener("submit", (event) => {
             event.preventDefault();
             errorMessage.textContent = "";
+            hasValidationError = false;
 
             const bill = Number(document.getElementById("bill").value);
             const area = Number(document.getElementById("area").value);
@@ -787,7 +1120,8 @@
             const tariff = Number(location.selectedOptions[0].dataset.rate);
 
             if (!Number.isFinite(bill) || bill <= 0 || !Number.isFinite(area) || area < 20) {
-                errorMessage.textContent = "कृपया बिलाची रक्कम आणि किमान 20 चौ. फूट क्षेत्रफळ भरा.";
+                hasValidationError = true;
+                errorMessage.textContent = translate("validationError");
                 return;
             }
 
@@ -804,18 +1138,14 @@
             );
             const areaLimited = roofCapacity < desiredCapacity;
 
-            document.getElementById("resCapacity").textContent = capacity.toFixed(1);
-            document.getElementById("resGeneration").textContent = monthlyGeneration.toLocaleString("en-IN");
-            document.getElementById("resSavings").textContent = Math.round(savings).toLocaleString("en-IN");
-            document.getElementById("resSubsidy").textContent = Math.round(subsidy).toLocaleString("en-IN");
-
-            capacityNote.textContent = areaLimited
-                ? `उपलब्ध छताच्या क्षेत्रामुळे क्षमता ${capacity.toFixed(1)} kW पर्यंत मर्यादित आहे.`
-                : "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे.";
+            lastEstimate = { capacity, monthlyGeneration, savings, subsidy, areaLimited };
+            renderEstimate(lastEstimate);
             capacityNote.classList.add("is-visible");
             emptyState.hidden = true;
             results.classList.add("is-visible");
         });
+
+        setLanguageFromStorage();
     </script>
 </body>
 </html>
