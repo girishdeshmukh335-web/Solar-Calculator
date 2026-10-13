@@ -864,7 +864,7 @@
                 </div>
                 <div class="form-group">
                     <label for="loanRate" data-i18n="loanRateLabel">वार्षिक व्याजदर (%)</label>
-                    <input type="number" id="loanRate" min="0" max="40" step="0.1" value="7">
+                    <input type="number" id="loanRate" min="0" max="40" step="0.1" value="7.5">
                 </div>
                 <div class="form-group">
                     <label for="loanTenure" data-i18n="loanTenureLabel">कालावधी</label>
@@ -874,7 +874,7 @@
                     </select>
                 </div>
             </div>
-            <p class="field-hint" data-i18n="emiRateHint">7% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.</p>
+            <p class="field-hint" data-i18n="emiRateHint">7.5% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.</p>
             <button class="calculate-button emi-calculate" type="button" onclick="calcEMI()" data-i18n="emiButton">EMI मोजा</button>
             <p class="emi-error" id="emiError" role="alert"></p>
             <div class="emi-results" id="emiRes" aria-live="polite">
@@ -1042,10 +1042,10 @@
                 aiOptionRain: "पावसाळ्यात सोलर वीज तयार करतो का?",
                 aiOptionSubsidy: "अनुदान थेट खात्यात जमा होते का?",
                 aiAnswerButton: "उत्तर मिळवा",
-                aiAnswerType: "पॅनेल निवडताना BIS प्रमाणन, उत्पादकाची वॉरंटी, कार्यक्षमता आणि छताची दिशा व सावली तपासा. योग्य पर्यायासाठी अधिकृत नोंदणीकृत विक्रेत्याकडून साइट सर्वे आणि लेखी कोटेशन घ्या.",
+                aiAnswerType: "घरगुती छतासाठी Monocrystalline PERC पॅनेल एक पर्याय असू शकतात; प्रत्येक छतासाठी एकच प्रकार सर्वोत्तम नसतो. BIS प्रमाणन, कार्यक्षमता, उत्पादकाची वॉरंटी, सावली आणि लेखी कोटेशन तपासा.",
                 aiAnswerSpace: "साधारणपणे प्रत्येक 1 kW साठी सुमारे 100 चौ. फूट जागा धरली जाते. पॅनेलची मांडणी, सावली आणि देखभालीसाठीची जागा यामुळे प्रत्यक्ष गरज बदलू शकते.",
-                aiAnswerRain: "हो. ढगाळ किंवा पावसाळी दिवसांतही पॅनेल वीज तयार करू शकतात, पण कमी सूर्यप्रकाशामुळे उत्पादन कमी होते. प्रत्यक्ष उत्पादन हवामान, सावली आणि प्रणालीवर अवलंबून असते.",
-                aiAnswerSubsidy: "पात्र निवासी ग्राहकांसाठी अनुदानाची प्रक्रिया अधिकृत PM Surya Ghar पोर्टलवरून होते. पात्रता, तपासणी, मंजुरी आणि बँक खात्यातील जमा यांचे नियम व वेळ अधिकृत पोर्टलवर तपासा. कोणालाही OTP सांगू नका.",
+                aiAnswerRain: "हो. ढगाळ किंवा पावसाळी दिवसांतही पॅनेल वीज तयार करू शकतात; कमी सूर्यप्रकाशामुळे उत्पादन घटते. उत्पादनाची ठरावीक टक्केवारी सांगता येत नाही, कारण ते हवामान, सावली आणि प्रणालीवर अवलंबून असते.",
+                aiAnswerSubsidy: "पात्र आणि मंजूर निवासी यंत्रणेसाठी अनुदान अधिकृत प्रक्रियेनंतर नोंदणीकृत अर्जदाराच्या खात्यात जमा होऊ शकते. पात्रता, तपासणी, मंजुरी आणि सद्य नियम अधिकृत PM Surya Ghar पोर्टलवर तपासा. OTP कोणालाही सांगू नका.",
                 emiTitle: "बँक कर्ज व हप्ता (Green Loan EMI)",
                 emiDescription: "सोलर कर्जासाठी अंदाजे मासिक हप्ता आणि एकूण परतफेड मोजा.",
                 loanAmountLabel: "कर्ज रक्कम (₹)",
@@ -1053,7 +1053,7 @@
                 loanTenureLabel: "कालावधी",
                 tenureThree: "3 वर्षे",
                 tenureFive: "5 वर्षे",
-                emiRateHint: "7% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.",
+                emiRateHint: "7.5% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.",
                 emiButton: "EMI मोजा",
                 emiMonthlyLabel: "अंदाजे मासिक EMI",
                 emiTotalLabel: "एकूण परतफेड",
@@ -1147,10 +1147,10 @@
                 aiOptionRain: "Does solar generate electricity during monsoon?",
                 aiOptionSubsidy: "Is the subsidy deposited directly into my account?",
                 aiAnswerButton: "Show answer",
-                aiAnswerType: "Compare BIS certification, manufacturer warranty, efficiency, roof orientation, and shade. Ask an officially registered vendor for a site survey and written quote before choosing panels.",
+                aiAnswerType: "Monocrystalline PERC panels can be one option for a home roof, but no single panel type is best for every site. Compare BIS certification, efficiency, warranty, shade, and written quotes.",
                 aiAnswerSpace: "A rough planning estimate is about 100 sq. ft. per 1 kW. Actual space varies with panel layout, shade, and access needed for maintenance.",
-                aiAnswerRain: "Yes. Panels can generate on cloudy and rainy days, but output is lower with less sunlight. Actual generation depends on weather, shade, and system design.",
-                aiAnswerSubsidy: "Eligible residential customers apply through the official PM Surya Ghar portal. Check the portal for eligibility, inspection, approval, and bank-disbursement requirements and timelines. Never share an OTP.",
+                aiAnswerRain: "Yes. Panels can still generate on cloudy or rainy days, but lower sunlight reduces output. There is no fixed percentage; generation depends on weather, shade, and system design.",
+                aiAnswerSubsidy: "For an eligible, approved residential system, the subsidy may be disbursed to the registered applicant's bank account through the official process. Check current eligibility, inspection, and approval rules on the PM Surya Ghar portal. Never share an OTP.",
                 emiTitle: "Green loan EMI calculator",
                 emiDescription: "Estimate the monthly payment and total repayment for a solar loan.",
                 loanAmountLabel: "Loan amount (₹)",
@@ -1158,7 +1158,7 @@
                 loanTenureLabel: "Loan term",
                 tenureThree: "3 years",
                 tenureFive: "5 years",
-                emiRateHint: "7% is an example rate; confirm the applicable rate with your bank.",
+                emiRateHint: "7.5% is an example rate; confirm the applicable rate with your bank.",
                 emiButton: "Calculate EMI",
                 emiMonthlyLabel: "Estimated monthly EMI",
                 emiTotalLabel: "Total repayment",
@@ -1252,10 +1252,10 @@
                 aiOptionRain: "क्या बारिश के मौसम में सोलर बिजली बनाता है?",
                 aiOptionSubsidy: "क्या सब्सिडी सीधे खाते में जमा होती है?",
                 aiAnswerButton: "जवाब देखें",
-                aiAnswerType: "पैनल चुनते समय BIS प्रमाणन, निर्माता की वारंटी, दक्षता, छत की दिशा और छाया देखें। सही विकल्प के लिए आधिकारिक रूप से पंजीकृत विक्रेता से साइट सर्वे और लिखित कोटेशन लें।",
+                aiAnswerType: "घर की छत के लिए Monocrystalline PERC पैनल एक विकल्प हो सकते हैं; हर छत के लिए एक ही प्रकार सबसे अच्छा नहीं होता। BIS प्रमाणन, दक्षता, वारंटी, छाया और लिखित कोटेशन की तुलना करें।",
                 aiAnswerSpace: "मोटे अनुमान के लिए हर 1 kW पर लगभग 100 वर्ग फुट जगह मानें। पैनल की व्यवस्था, छाया और रखरखाव के लिए रास्ते के कारण वास्तविक जरूरत बदल सकती है।",
-                aiAnswerRain: "हाँ। बादल और बारिश में भी पैनल बिजली बना सकते हैं, लेकिन कम धूप में उत्पादन घटता है। वास्तविक उत्पादन मौसम, छाया और सिस्टम डिज़ाइन पर निर्भर करता है।",
-                aiAnswerSubsidy: "पात्र घरेलू ग्राहक आधिकारिक PM Surya Ghar पोर्टल के माध्यम से आवेदन करते हैं। पात्रता, निरीक्षण, मंज़ूरी और बैंक खाते में भुगतान की शर्तें व समय पोर्टल पर जाँचें। किसी के साथ OTP साझा न करें।",
+                aiAnswerRain: "हाँ। बादल या बारिश में भी पैनल बिजली बना सकते हैं, लेकिन कम धूप से उत्पादन घटता है। कोई तय प्रतिशत नहीं है; उत्पादन मौसम, छाया और सिस्टम डिज़ाइन पर निर्भर करता है।",
+                aiAnswerSubsidy: "पात्र और मंज़ूर घरेलू सिस्टम के लिए आधिकारिक प्रक्रिया के बाद सब्सिडी पंजीकृत आवेदक के बैंक खाते में भेजी जा सकती है। पात्रता, निरीक्षण और मंज़ूरी के मौजूदा नियम PM Surya Ghar पोर्टल पर जाँचें। OTP साझा न करें।",
                 emiTitle: "ग्रीन लोन EMI कैलकुलेटर",
                 emiDescription: "सोलर लोन की अनुमानित मासिक किस्त और कुल भुगतान जानें।",
                 loanAmountLabel: "लोन राशि (₹)",
@@ -1263,7 +1263,7 @@
                 loanTenureLabel: "लोन अवधि",
                 tenureThree: "3 वर्ष",
                 tenureFive: "5 वर्ष",
-                emiRateHint: "7% उदाहरण के लिए है; लागू ब्याज दर अपने बैंक से जाँचें।",
+                emiRateHint: "7.5% उदाहरण के लिए है; लागू ब्याज दर अपने बैंक से जाँचें।",
                 emiButton: "EMI निकालें",
                 emiMonthlyLabel: "अनुमानित मासिक EMI",
                 emiTotalLabel: "कुल भुगतान",
