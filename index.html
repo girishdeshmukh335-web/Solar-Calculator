@@ -305,6 +305,45 @@
 
         .ai-answer.is-visible { display: block; }
 
+        .emi-calculator { max-width: 780px; }
+
+        .emi-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 16px;
+            margin-top: 18px;
+        }
+
+        .emi-form-grid .form-group { margin-bottom: 14px; }
+
+        .emi-calculate {
+            width: auto;
+            min-width: 160px;
+            padding: 0 18px;
+        }
+
+        .emi-error {
+            min-height: 1.4em;
+            margin: 8px 0 0;
+            color: #a3322e;
+            font-size: .84rem;
+        }
+
+        .emi-results {
+            display: none;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 16px;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .emi-results.is-visible { display: grid; }
+        .emi-result { padding: 13px 12px; }
+        .emi-result + .emi-result { border-left: 1px solid var(--line); }
+        .emi-result-label { display: block; color: var(--muted); font-size: .78rem; }
+        .emi-result-value { display: block; margin-top: 4px; font-weight: 700; }
+        .emi-disclaimer { margin: 13px 0 0; color: var(--muted); font-size: .78rem; }
+
         .portal-card {
             padding: 25px 28px;
             border: 1px solid var(--line);
@@ -632,6 +671,8 @@
             .ai-query-row { grid-template-columns: 1fr; }
             .ai-query-row .calculate-button { width: 100%; }
             .ai-advisor { padding: 22px 20px; }
+            .emi-form-grid { grid-template-columns: 1fr; }
+            .emi-calculate { width: 100%; }
             .apply-strip { align-items: flex-start; flex-direction: column; }
             footer { padding: 0 20px 24px; }
         }
@@ -650,6 +691,8 @@
             .meter-grid { grid-template-columns: 1fr; }
             .meter-reading + .meter-reading { border-top: 1px solid var(--line); border-left: 0; }
             .meter-heading { flex-direction: column; gap: 8px; }
+            .emi-results { grid-template-columns: 1fr; }
+            .emi-result + .emi-result { border-top: 1px solid var(--line); border-left: 0; }
             footer { flex-direction: column; gap: 3px; }
         }
 
@@ -809,6 +852,37 @@
                 <button class="calculate-button" type="button" onclick="askAIAssistant()" data-i18n="aiAnswerButton">उत्तर मिळवा</button>
             </div>
             <div id="aiRes" class="ai-answer" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="portal-section portal-card emi-calculator" aria-labelledby="emi-title">
+            <h2 class="portal-heading" id="emi-title" data-i18n="emiTitle">बँक कर्ज व हप्ता (Green Loan EMI)</h2>
+            <p class="portal-description" data-i18n="emiDescription">सोलर कर्जासाठी अंदाजे मासिक हप्ता आणि एकूण परतफेड मोजा.</p>
+            <div class="emi-form-grid">
+                <div class="form-group">
+                    <label for="loanAmt" data-i18n="loanAmountLabel">कर्ज रक्कम (₹)</label>
+                    <input type="number" id="loanAmt" min="1" step="1000" value="90000" inputmode="decimal">
+                </div>
+                <div class="form-group">
+                    <label for="loanRate" data-i18n="loanRateLabel">वार्षिक व्याजदर (%)</label>
+                    <input type="number" id="loanRate" min="0" max="40" step="0.1" value="7">
+                </div>
+                <div class="form-group">
+                    <label for="loanTenure" data-i18n="loanTenureLabel">कालावधी</label>
+                    <select id="loanTenure">
+                        <option value="3" data-i18n="tenureThree">3 वर्षे</option>
+                        <option value="5" selected data-i18n="tenureFive">5 वर्षे</option>
+                    </select>
+                </div>
+            </div>
+            <p class="field-hint" data-i18n="emiRateHint">7% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.</p>
+            <button class="calculate-button emi-calculate" type="button" onclick="calcEMI()" data-i18n="emiButton">EMI मोजा</button>
+            <p class="emi-error" id="emiError" role="alert"></p>
+            <div class="emi-results" id="emiRes" aria-live="polite">
+                <div class="emi-result"><span class="emi-result-label" data-i18n="emiMonthlyLabel">अंदाजे मासिक EMI</span><strong class="emi-result-value" id="emiMonthly">₹—</strong></div>
+                <div class="emi-result"><span class="emi-result-label" data-i18n="emiTotalLabel">एकूण परतफेड</span><strong class="emi-result-value" id="emiTotal">₹—</strong></div>
+                <div class="emi-result"><span class="emi-result-label" data-i18n="emiInterestLabel">एकूण व्याज</span><strong class="emi-result-value" id="emiInterest">₹—</strong></div>
+            </div>
+            <p class="emi-disclaimer" data-i18n="emiDisclaimer">हा reducing-balance पद्धतीवरील अंदाज आहे. प्रक्रिया शुल्क, विमा आणि बँकेच्या अटी यात समाविष्ट नाहीत.</p>
         </section>
 
         <section class="apply-strip" aria-labelledby="apply-title">
@@ -971,7 +1045,21 @@
                 aiAnswerType: "पॅनेल निवडताना BIS प्रमाणन, उत्पादकाची वॉरंटी, कार्यक्षमता आणि छताची दिशा व सावली तपासा. योग्य पर्यायासाठी अधिकृत नोंदणीकृत विक्रेत्याकडून साइट सर्वे आणि लेखी कोटेशन घ्या.",
                 aiAnswerSpace: "साधारणपणे प्रत्येक 1 kW साठी सुमारे 100 चौ. फूट जागा धरली जाते. पॅनेलची मांडणी, सावली आणि देखभालीसाठीची जागा यामुळे प्रत्यक्ष गरज बदलू शकते.",
                 aiAnswerRain: "हो. ढगाळ किंवा पावसाळी दिवसांतही पॅनेल वीज तयार करू शकतात, पण कमी सूर्यप्रकाशामुळे उत्पादन कमी होते. प्रत्यक्ष उत्पादन हवामान, सावली आणि प्रणालीवर अवलंबून असते.",
-                aiAnswerSubsidy: "पात्र निवासी ग्राहकांसाठी अनुदानाची प्रक्रिया अधिकृत PM Surya Ghar पोर्टलवरून होते. पात्रता, तपासणी, मंजुरी आणि बँक खात्यातील जमा यांचे नियम व वेळ अधिकृत पोर्टलवर तपासा. कोणालाही OTP सांगू नका."
+                aiAnswerSubsidy: "पात्र निवासी ग्राहकांसाठी अनुदानाची प्रक्रिया अधिकृत PM Surya Ghar पोर्टलवरून होते. पात्रता, तपासणी, मंजुरी आणि बँक खात्यातील जमा यांचे नियम व वेळ अधिकृत पोर्टलवर तपासा. कोणालाही OTP सांगू नका.",
+                emiTitle: "बँक कर्ज व हप्ता (Green Loan EMI)",
+                emiDescription: "सोलर कर्जासाठी अंदाजे मासिक हप्ता आणि एकूण परतफेड मोजा.",
+                loanAmountLabel: "कर्ज रक्कम (₹)",
+                loanRateLabel: "वार्षिक व्याजदर (%)",
+                loanTenureLabel: "कालावधी",
+                tenureThree: "3 वर्षे",
+                tenureFive: "5 वर्षे",
+                emiRateHint: "7% हा उदाहरणार्थ दर आहे; तुमच्या बँकेकडून लागू दर तपासा.",
+                emiButton: "EMI मोजा",
+                emiMonthlyLabel: "अंदाजे मासिक EMI",
+                emiTotalLabel: "एकूण परतफेड",
+                emiInterestLabel: "एकूण व्याज",
+                emiDisclaimer: "हा reducing-balance पद्धतीवरील अंदाज आहे. प्रक्रिया शुल्क, विमा आणि बँकेच्या अटी यात समाविष्ट नाहीत.",
+                emiInvalid: "कर्ज रक्कम शून्यापेक्षा जास्त आणि व्याजदर 0% ते 40% दरम्यान भरा."
             },
             en: {
                 pageTitle: "EcoGrid | Solar and Services Portal",
@@ -1062,7 +1150,21 @@
                 aiAnswerType: "Compare BIS certification, manufacturer warranty, efficiency, roof orientation, and shade. Ask an officially registered vendor for a site survey and written quote before choosing panels.",
                 aiAnswerSpace: "A rough planning estimate is about 100 sq. ft. per 1 kW. Actual space varies with panel layout, shade, and access needed for maintenance.",
                 aiAnswerRain: "Yes. Panels can generate on cloudy and rainy days, but output is lower with less sunlight. Actual generation depends on weather, shade, and system design.",
-                aiAnswerSubsidy: "Eligible residential customers apply through the official PM Surya Ghar portal. Check the portal for eligibility, inspection, approval, and bank-disbursement requirements and timelines. Never share an OTP."
+                aiAnswerSubsidy: "Eligible residential customers apply through the official PM Surya Ghar portal. Check the portal for eligibility, inspection, approval, and bank-disbursement requirements and timelines. Never share an OTP.",
+                emiTitle: "Green loan EMI calculator",
+                emiDescription: "Estimate the monthly payment and total repayment for a solar loan.",
+                loanAmountLabel: "Loan amount (₹)",
+                loanRateLabel: "Annual interest rate (%)",
+                loanTenureLabel: "Loan term",
+                tenureThree: "3 years",
+                tenureFive: "5 years",
+                emiRateHint: "7% is an example rate; confirm the applicable rate with your bank.",
+                emiButton: "Calculate EMI",
+                emiMonthlyLabel: "Estimated monthly EMI",
+                emiTotalLabel: "Total repayment",
+                emiInterestLabel: "Total interest",
+                emiDisclaimer: "This estimate uses the reducing-balance method. Processing fees, insurance, and bank-specific terms are not included.",
+                emiInvalid: "Enter a loan amount above zero and an interest rate from 0% to 40%."
             },
             hi: {
                 pageTitle: "EcoGrid | सोलर और सेवा पोर्टल",
@@ -1153,7 +1255,21 @@
                 aiAnswerType: "पैनल चुनते समय BIS प्रमाणन, निर्माता की वारंटी, दक्षता, छत की दिशा और छाया देखें। सही विकल्प के लिए आधिकारिक रूप से पंजीकृत विक्रेता से साइट सर्वे और लिखित कोटेशन लें।",
                 aiAnswerSpace: "मोटे अनुमान के लिए हर 1 kW पर लगभग 100 वर्ग फुट जगह मानें। पैनल की व्यवस्था, छाया और रखरखाव के लिए रास्ते के कारण वास्तविक जरूरत बदल सकती है।",
                 aiAnswerRain: "हाँ। बादल और बारिश में भी पैनल बिजली बना सकते हैं, लेकिन कम धूप में उत्पादन घटता है। वास्तविक उत्पादन मौसम, छाया और सिस्टम डिज़ाइन पर निर्भर करता है।",
-                aiAnswerSubsidy: "पात्र घरेलू ग्राहक आधिकारिक PM Surya Ghar पोर्टल के माध्यम से आवेदन करते हैं। पात्रता, निरीक्षण, मंज़ूरी और बैंक खाते में भुगतान की शर्तें व समय पोर्टल पर जाँचें। किसी के साथ OTP साझा न करें।"
+                aiAnswerSubsidy: "पात्र घरेलू ग्राहक आधिकारिक PM Surya Ghar पोर्टल के माध्यम से आवेदन करते हैं। पात्रता, निरीक्षण, मंज़ूरी और बैंक खाते में भुगतान की शर्तें व समय पोर्टल पर जाँचें। किसी के साथ OTP साझा न करें।",
+                emiTitle: "ग्रीन लोन EMI कैलकुलेटर",
+                emiDescription: "सोलर लोन की अनुमानित मासिक किस्त और कुल भुगतान जानें।",
+                loanAmountLabel: "लोन राशि (₹)",
+                loanRateLabel: "वार्षिक ब्याज दर (%)",
+                loanTenureLabel: "लोन अवधि",
+                tenureThree: "3 वर्ष",
+                tenureFive: "5 वर्ष",
+                emiRateHint: "7% उदाहरण के लिए है; लागू ब्याज दर अपने बैंक से जाँचें।",
+                emiButton: "EMI निकालें",
+                emiMonthlyLabel: "अनुमानित मासिक EMI",
+                emiTotalLabel: "कुल भुगतान",
+                emiInterestLabel: "कुल ब्याज",
+                emiDisclaimer: "यह घटती शेष राशि पद्धति पर आधारित अनुमान है। प्रोसेसिंग शुल्क, बीमा और बैंक की शर्तें शामिल नहीं हैं।",
+                emiInvalid: "लोन राशि शून्य से अधिक और ब्याज दर 0% से 40% के बीच भरें।"
             }
         };
 
@@ -1162,12 +1278,16 @@
         const results = document.getElementById("results");
         const emptyState = document.getElementById("emptyState");
         const capacityNote = document.getElementById("capacityNote");
+        const emiError = document.getElementById("emiError");
+        const emiResults = document.getElementById("emiRes");
         const languageSelect = document.getElementById("langSelect");
         const localeByLanguage = { mr: "mr-IN", en: "en-IN", hi: "hi-IN" };
         let currentLanguage = "mr";
         let lastEstimate = null;
         let hasValidationError = false;
         let latestAssistantQuery = null;
+        let lastEmi = null;
+        let hasEmiError = false;
 
         function translate(key) {
             return translations[currentLanguage][key];
@@ -1192,8 +1312,10 @@
             });
 
             if (hasValidationError) errorMessage.textContent = translate("validationError");
+            if (hasEmiError) emiError.textContent = translate("emiInvalid");
             if (lastEstimate) renderEstimate(lastEstimate);
             if (latestAssistantQuery) renderAssistantAnswer();
+            if (lastEmi) renderEmi(lastEmi);
 
             try {
                 localStorage.setItem("ecogrid-language", currentLanguage);
@@ -1227,6 +1349,48 @@
             } catch {}
         }
 
+        function renderEmi(estimate) {
+            const currency = new Intl.NumberFormat(localeByLanguage[currentLanguage], {
+                style: "currency",
+                currency: "INR",
+                maximumFractionDigits: 0
+            });
+
+            document.getElementById("emiMonthly").textContent = currency.format(estimate.monthlyPayment);
+            document.getElementById("emiTotal").textContent = currency.format(estimate.totalPayment);
+            document.getElementById("emiInterest").textContent = currency.format(estimate.totalInterest);
+        }
+
+        function calcEMI() {
+            const principal = Number(document.getElementById("loanAmt").value);
+            const annualRate = Number(document.getElementById("loanRate").value);
+            const years = Number(document.getElementById("loanTenure").value);
+
+            if (!Number.isFinite(principal) || principal <= 0 || !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 40 || !Number.isFinite(years) || years <= 0) {
+                hasEmiError = true;
+                emiError.textContent = translate("emiInvalid");
+                emiResults.classList.remove("is-visible");
+                return;
+            }
+
+            hasEmiError = false;
+            emiError.textContent = "";
+            const months = years * 12;
+            const monthlyRate = annualRate / 1200;
+            const rateFactor = (1 + monthlyRate) ** months;
+            const monthlyPayment = monthlyRate === 0
+                ? principal / months
+                : principal * monthlyRate * rateFactor / (rateFactor - 1);
+
+            lastEmi = {
+                monthlyPayment,
+                totalPayment: monthlyPayment * months,
+                totalInterest: monthlyPayment * months - principal
+            };
+            renderEmi(lastEmi);
+            emiResults.classList.add("is-visible");
+        }
+
         function renderAssistantAnswer() {
             const answer = document.getElementById("aiRes");
             answer.textContent = translate(latestAssistantQuery);
@@ -1249,6 +1413,7 @@
 
         window.changeLanguage = changeLanguage;
         window.askAIAssistant = askAIAssistant;
+        window.calcEMI = calcEMI;
 
         form.addEventListener("submit", (event) => {
             event.preventDefault();
