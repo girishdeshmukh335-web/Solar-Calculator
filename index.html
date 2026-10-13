@@ -193,6 +193,122 @@
 
         .brand-list li + li { margin-top: 4px; }
 
+        .portal-section { margin-top: 22px; }
+
+        .portal-heading {
+            margin: 0 0 5px;
+            font-size: 1.28rem;
+            font-weight: 600;
+        }
+
+        .portal-description {
+            margin: 0 0 15px;
+            color: var(--muted);
+            font-size: .88rem;
+        }
+
+        .vendor-table-wrap { overflow-x: auto; }
+
+        .vendor-table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            font-size: .84rem;
+        }
+
+        .vendor-table th, .vendor-table td {
+            padding: 11px 12px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+        }
+
+        .vendor-table th { background: var(--green-wash); color: var(--green-dark); font-weight: 600; }
+        .vendor-table td:last-child, .vendor-table th:last-child { text-align: right; }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .portal-card {
+            padding: 25px 28px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .portal-card h3 { margin: 0; font-size: 1.08rem; font-weight: 600; }
+        .portal-card p { margin: 9px 0 0; color: var(--muted); font-size: .86rem; }
+
+        .portal-action {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px 13px;
+            border: 1px solid var(--green);
+            border-radius: 5px;
+            color: var(--green-dark);
+            font-size: .84rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .portal-action:hover { background: var(--green-wash); }
+        .portal-action:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+
+        .status-notice {
+            margin-top: 15px;
+            padding: 11px 13px;
+            border-left: 3px solid var(--sun);
+            background: #faf4e7;
+            color: #5d4a20;
+            font-size: .8rem;
+        }
+
+        .meter-panel {
+            padding: 26px 28px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .meter-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .demo-badge {
+            flex-shrink: 0;
+            padding: 4px 9px;
+            border: 1px solid #e3c66f;
+            border-radius: 4px;
+            background: #fff7db;
+            color: #665017;
+            font-family: "DM Sans", sans-serif;
+            font-size: .7rem;
+            font-weight: 700;
+        }
+
+        .meter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 20px;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .meter-reading { padding: 17px 18px; }
+        .meter-reading + .meter-reading { border-left: 1px solid var(--line); }
+        .meter-label { display: block; color: var(--muted); font-size: .8rem; }
+        .meter-value { display: block; margin-top: 4px; font-family: "DM Sans", sans-serif; font-size: 1.6rem; font-weight: 700; }
+        .meter-value small { font-size: .77rem; font-weight: 500; }
+        .meter-note { margin: 13px 0 0; color: var(--muted); font-size: .8rem; }
+
         .apply-strip {
             display: flex;
             align-items: center;
@@ -438,6 +554,7 @@
             .result-panel { min-height: 370px; }
             .empty-state { min-height: 190px; }
             .info-grid { grid-template-columns: 1fr; }
+            .portal-grid { grid-template-columns: 1fr; }
             .apply-strip { align-items: flex-start; flex-direction: column; }
             footer { padding: 0 20px 24px; }
         }
@@ -449,8 +566,12 @@
             .form-panel, .result-panel { padding: 24px 20px; }
             .capacity-value { font-size: 2.9rem; }
             .info-panel { padding: 23px 20px; }
+            .portal-card, .meter-panel { padding: 22px 20px; }
             .apply-strip { padding: 23px 20px; }
             .apply-link { width: 100%; }
+            .meter-grid { grid-template-columns: 1fr; }
+            .meter-reading + .meter-reading { border-top: 1px solid var(--line); border-left: 0; }
+            .meter-heading { flex-direction: column; gap: 8px; }
             footer { flex-direction: column; gap: 3px; }
         }
 
@@ -473,9 +594,9 @@
     <main id="top">
         <section class="intro" aria-labelledby="page-title">
             <div class="intro-copy">
-                <p class="eyebrow">Rooftop solar planner · Maharashtra</p>
-                <h1 id="page-title">महाराष्ट्रासाठी रूफटॉप सोलर प्लॅनर.</h1>
-                <p>वीज बिलानुसार क्षमता आणि बचतीचा अंदाज घ्या. योजनेची माहिती तपासा आणि अधिकृत पोर्टलवर अर्ज करा.</p>
+                <p class="eyebrow">Rooftop solar · Maharashtra</p>
+                <h1 id="page-title">EcoGrid सोलर व सेवा माहिती पोर्टल.</h1>
+                <p>क्षमता व अनुदानाचा अंदाज, विक्रेता माहिती आणि अधिकृत सेवा मार्ग एकाच ठिकाणी तपासा.</p>
             </div>
         </section>
 
@@ -589,6 +710,58 @@
                 <span>PM Surya Ghar पोर्टल</span>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6m-1-5-9 9M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
+        </section>
+
+        <section class="portal-section" aria-labelledby="pricing-title">
+            <h2 class="portal-heading" id="pricing-title">3 kW सिस्टीम: उदाहरणात्मक किंमत तुलना</h2>
+            <p class="portal-description">खालील दर तुमच्या मसुद्यातील उदाहरणे आहेत; विक्रेत्यांकडून स्वतंत्रपणे पडताळलेले किंवा हमी दिलेले कोटेशन नाहीत.</p>
+            <div class="vendor-table-wrap">
+                <table class="vendor-table">
+                    <thead><tr><th scope="col">ब्रँड</th><th scope="col">मसुद्यातील दर्शवलेली किंमत</th><th scope="col">₹78,000 अनुदान वजा केल्यावर*</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tata Power Solar</td><td>₹1,80,000</td><td>₹1,02,000</td></tr>
+                        <tr><td>Waaree Energies</td><td>₹1,70,000</td><td>₹92,000</td></tr>
+                        <tr><td>Adani Solar</td><td>₹1,75,000</td><td>₹97,000</td></tr>
+                        <tr><td>Vikram Solar</td><td>₹1,65,000</td><td>₹87,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="fine-print">*₹78,000 हे पात्र 3 kW निवासी यंत्रणेसाठी कमाल केंद्रीय अनुदानाचे उदाहरण आहे. प्रत्यक्ष किंमत, पात्रता, मंजूर क्षमता, कर व कामाचा समावेश यानुसार अंतिम रक्कम बदलेल. निर्णयापूर्वी अधिकृत नोंदणीकृत विक्रेत्याकडून लेखी कोटेशन घ्या.</p>
+        </section>
+
+        <section class="portal-section" aria-labelledby="services-title">
+            <h2 class="portal-heading" id="services-title">अर्ज, स्थिती व तक्रार सेवा</h2>
+            <p class="portal-description">ही वेबसाइट सरकारी अर्ज किंवा वीज वितरण कंपनीच्या प्रणालीशी जोडलेली नाही. तुमचे अर्ज क्रमांक किंवा वैयक्तिक माहिती इथे भरू नका.</p>
+            <div class="portal-grid">
+                <section class="portal-card" aria-labelledby="application-status-title">
+                    <h3 id="application-status-title">अर्ज करा किंवा स्थिती तपासा</h3>
+                    <p>नवीन अर्ज, अर्जाची सद्यस्थिती आणि अनुदानाशी संबंधित माहितीसाठी अधिकृत PM Surya Ghar पोर्टल वापरा.</p>
+                    <a class="portal-action" href="https://pmsuryaghar.gov.in/" target="_blank" rel="noopener noreferrer">अधिकृत पोर्टल उघडा</a>
+                    <div class="status-notice">EcoGrid अर्ज क्रमांक तयार करत नाही. बसवण्याची तारीख किंवा 15 दिवसांची हमी देत नाही.</div>
+                </section>
+                <section class="portal-card" aria-labelledby="complaint-title">
+                    <h3 id="complaint-title">वीज सेवा व तक्रारी</h3>
+                    <p>बिल, मीटर किंवा वीजपुरवठ्याच्या तक्रारीसाठी तुमच्या वीज वितरण कंपनीचे अधिकृत ग्राहक सेवा माध्यम वापरा.</p>
+                    <a class="portal-action" href="https://www.mahadiscom.in/" target="_blank" rel="noopener noreferrer">महावितरणची अधिकृत वेबसाइट</a>
+                    <div class="status-notice">या पृष्ठावर तक्रार साठवली किंवा पाठवली जात नाही; निवारण कालावधीची हमी उपलब्ध नाही.</div>
+                </section>
+            </div>
+        </section>
+
+        <section class="portal-section meter-panel" aria-labelledby="meter-title">
+            <div class="meter-heading">
+                <div>
+                    <h2 class="portal-heading" id="meter-title">स्मार्ट मीटर व देखभाल डॅशबोर्ड</h2>
+                    <p class="portal-description">IoT डेटा जोडलेला नसल्यास प्रत्यक्ष निर्मिती किंवा सर्व्हिसिंग स्थिती दाखवता येत नाही.</p>
+                </div>
+                <span class="demo-badge">DEMO DATA · LIVE नाही</span>
+            </div>
+            <div class="meter-grid" aria-label="उदाहरणात्मक मीटर वाचन">
+                <div class="meter-reading"><span class="meter-label">उदाहरण: आजची निर्मिती</span><span class="meter-value">14.2 <small>kWh</small></span></div>
+                <div class="meter-reading"><span class="meter-label">उदाहरण: आजचा वापर</span><span class="meter-value">8.5 <small>kWh</small></span></div>
+                <div class="meter-reading"><span class="meter-label">उदाहरण: ग्रिडकडे निर्यात</span><span class="meter-value">5.7 <small>kWh</small></span></div>
+            </div>
+            <p class="meter-note">वरील आकडे केवळ डिझाइनसाठीचे नमुना डेटा आहेत. प्रत्यक्ष मीटर, उत्पादन किंवा वॉरंटी स्थितीचे प्रतिनिधित्व करत नाहीत. स्वच्छता व देखभाल वेळापत्रकासाठी तुमच्या विक्रेत्याच्या सूचना तपासा.</p>
         </section>
     </main>
 
