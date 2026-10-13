@@ -797,6 +797,11 @@
                         <span class="metric-label" data-i18n="subsidyEstimateLabel">अंदाजे केंद्रीय अनुदान*</span>
                         <span class="metric-value">₹ <span id="resSubsidy">—</span></span>
                     </div>
+                    <p class="carbon-badge" id="carbonBadge" aria-live="polite">
+                        <span data-i18n="carbonPrefix">🌱 वार्षिक अंदाजित CO₂ समतुल्य फायदा:</span>
+                        <strong id="carbonTrees">—</strong>
+                        <span data-i18n="carbonSuffix">झाडे*</span>
+                    </p>
                     <p class="capacity-note" id="capacityNote"></p>
                 </div>
 
@@ -986,6 +991,9 @@
                 unitLabel: "युनिट",
                 savingsLabel: "अंदाजे मासिक बचत",
                 subsidyEstimateLabel: "अंदाजे केंद्रीय अनुदान*",
+                carbonPrefix: "🌱 वार्षिक अंदाजित CO₂ समतुल्य फायदा:",
+                carbonSuffix: "झाडे*",
+                carbonDisclaimer: "*हा साधा तुलनात्मक अंदाज आहे (12 झाडे प्रति kW); प्रत्यक्ष CO₂ बचत किंवा झाडांची लागवड मोजलेली नाही.",
                 assumptionNote: "हा प्राथमिक अंदाज आहे. प्रत्यक्ष निर्मिती छताची दिशा, सावली, स्थानिक दर आणि यंत्रणेच्या रचनेनुसार बदलू शकते. अनुदानाची पात्रता व अंतिम रक्कम अधिकृत पोर्टलवर तपासा.",
                 infoGridLabel: "अनुदान आणि विक्रेता माहिती",
                 subsidyEyebrow: "PM Surya Ghar",
@@ -1091,6 +1099,9 @@
                 unitLabel: "units",
                 savingsLabel: "Estimated monthly savings",
                 subsidyEstimateLabel: "Estimated central subsidy*",
+                carbonPrefix: "🌱 Estimated annual CO₂-equivalent benefit:",
+                carbonSuffix: "trees*",
+                carbonDisclaimer: "*Illustrative estimate using 12 trees per kW; actual CO₂ savings and trees planted are not measured.",
                 assumptionNote: "This is a preliminary estimate. Actual generation varies with roof orientation, shade, local tariffs, and system design. Check subsidy eligibility and final amounts on the official portal.",
                 infoGridLabel: "Subsidy and vendor information",
                 subsidyEyebrow: "PM Surya Ghar",
@@ -1196,6 +1207,9 @@
                 unitLabel: "यूनिट",
                 savingsLabel: "अनुमानित मासिक बचत",
                 subsidyEstimateLabel: "अनुमानित केंद्रीय सब्सिडी*",
+                carbonPrefix: "🌱 अनुमानित वार्षिक CO₂-समतुल्य लाभ:",
+                carbonSuffix: "पेड़*",
+                carbonDisclaimer: "*12 पेड़ प्रति kW के आधार पर उदाहरणात्मक अनुमान; वास्तविक CO₂ बचत या लगाए गए पेड़ मापे नहीं गए हैं।",
                 assumptionNote: "यह प्रारंभिक अनुमान है। वास्तविक उत्पादन छत की दिशा, छाया, स्थानीय दरों और सिस्टम डिज़ाइन पर निर्भर करता है। पात्रता और अंतिम सब्सिडी राशि आधिकारिक पोर्टल पर जाँचें।",
                 infoGridLabel: "सब्सिडी और विक्रेता की जानकारी",
                 subsidyEyebrow: "PM Surya Ghar",
@@ -1334,6 +1348,7 @@
             document.getElementById("resGeneration").textContent = formatNumber(estimate.monthlyGeneration);
             document.getElementById("resSavings").textContent = formatNumber(estimate.savings);
             document.getElementById("resSubsidy").textContent = formatNumber(estimate.subsidy);
+            document.getElementById("carbonTrees").textContent = formatNumber(estimate.capacity * 12);
             capacityNote.textContent = estimate.areaLimited
                 ? translate("areaLimited").replace("{capacity}", formattedCapacity)
                 : translate("areaSufficient");
