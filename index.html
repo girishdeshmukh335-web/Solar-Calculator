@@ -256,6 +256,55 @@
             gap: 20px;
         }
 
+        .ai-advisor {
+            max-width: 780px;
+            padding: 25px 28px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+        }
+
+        .ai-advisor-heading { display: flex; align-items: center; gap: 12px; }
+
+        .ai-advisor-icon {
+            display: grid;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--green-wash);
+            color: var(--green-dark);
+        }
+
+        .ai-advisor-icon svg { width: 22px; height: 22px; }
+        .ai-advisor-heading .portal-heading { margin: 0; }
+        .ai-advisor .portal-description { margin: 3px 0 0; }
+
+        .ai-query-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .ai-query-row .form-group { margin: 0; }
+        .ai-query-row label { margin-bottom: 7px; font-size: .86rem; font-weight: 600; }
+        .ai-query-row select { min-height: 48px; }
+
+        .ai-answer {
+            display: none;
+            margin-top: 16px;
+            padding: 13px 15px;
+            border-left: 3px solid var(--green);
+            border-radius: 0 5px 5px 0;
+            background: var(--green-wash);
+            font-size: .9rem;
+        }
+
+        .ai-answer.is-visible { display: block; }
+
         .portal-card {
             padding: 25px 28px;
             border: 1px solid var(--line);
@@ -580,6 +629,9 @@
             .empty-state { min-height: 190px; }
             .info-grid { grid-template-columns: 1fr; }
             .portal-grid { grid-template-columns: 1fr; }
+            .ai-query-row { grid-template-columns: 1fr; }
+            .ai-query-row .calculate-button { width: 100%; }
+            .ai-advisor { padding: 22px 20px; }
             .apply-strip { align-items: flex-start; flex-direction: column; }
             footer { padding: 0 20px 24px; }
         }
@@ -734,6 +786,31 @@
             </section>
         </section>
 
+        <section class="portal-section ai-advisor" aria-labelledby="ai-title">
+            <div class="ai-advisor-heading">
+                <span class="ai-advisor-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M8 9h8a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4a3 3 0 0 1 3-3Z" stroke="currentColor" stroke-width="1.7"/><path d="M12 5v4m-3 4h.01M15 13h.01M9 16h6M4 13H3m18 0h-1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="4" r="1" fill="currentColor"/></svg>
+                </span>
+                <div>
+                    <h2 class="portal-heading" id="ai-title" data-i18n="aiTitle">AI सोलर सल्लागार</h2>
+                    <p class="portal-description" data-i18n="aiDescription">पूर्वनिवडलेल्या प्रश्नांवर आधारित सामान्य मार्गदर्शन; वैयक्तिक AI सेवा किंवा तांत्रिक सल्ला नाही.</p>
+                </div>
+            </div>
+            <div class="ai-query-row">
+                <div class="form-group">
+                    <label for="aiQuery" data-i18n="aiQuestionLabel">तुमचा प्रश्न निवडा:</label>
+                    <select id="aiQuery">
+                        <option value="type" data-i18n="aiOptionType">माझ्या घरासाठी कोणता पॅनेल योग्य आहे?</option>
+                        <option value="space" data-i18n="aiOptionSpace">सोलरसाठी किती जागा लागते?</option>
+                        <option value="rain" data-i18n="aiOptionRain">पावसाळ्यात सोलर वीज तयार करतो का?</option>
+                        <option value="subsidy" data-i18n="aiOptionSubsidy">सबसिडी थेट खात्यात जमा होते का?</option>
+                    </select>
+                </div>
+                <button class="calculate-button" type="button" onclick="askAIAssistant()" data-i18n="aiAnswerButton">उत्तर मिळवा</button>
+            </div>
+            <div id="aiRes" class="ai-answer" role="status" aria-live="polite"></div>
+        </section>
+
         <section class="apply-strip" aria-labelledby="apply-title">
             <div class="apply-copy">
                 <h2 id="apply-title" data-i18n="applyTitle">अधिकृत पोर्टलवरून अर्ज करा</h2>
@@ -882,7 +959,19 @@
                 footerNote: "स्वच्छ ऊर्जेकडे एक पाऊल",
                 validationError: "कृपया वीज बिल आणि किमान 20 चौ. फूट छताचे क्षेत्रफळ भरा.",
                 areaLimited: "उपलब्ध छताच्या क्षेत्रामुळे क्षमता {capacity} kW पर्यंत मर्यादित आहे.",
-                areaSufficient: "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे."
+                areaSufficient: "उपलब्ध छताचे क्षेत्र या क्षमतेसाठी पुरेसे आहे.",
+                aiTitle: "AI सोलर सल्लागार",
+                aiDescription: "पूर्वनिवडलेल्या प्रश्नांवर आधारित सामान्य मार्गदर्शन; वैयक्तिक AI सेवा किंवा तांत्रिक सल्ला नाही.",
+                aiQuestionLabel: "तुमचा प्रश्न निवडा:",
+                aiOptionType: "माझ्या घरासाठी कोणते पॅनेल योग्य आहे?",
+                aiOptionSpace: "सोलरसाठी किती जागा लागते?",
+                aiOptionRain: "पावसाळ्यात सोलर वीज तयार करतो का?",
+                aiOptionSubsidy: "अनुदान थेट खात्यात जमा होते का?",
+                aiAnswerButton: "उत्तर मिळवा",
+                aiAnswerType: "पॅनेल निवडताना BIS प्रमाणन, उत्पादकाची वॉरंटी, कार्यक्षमता आणि छताची दिशा व सावली तपासा. योग्य पर्यायासाठी अधिकृत नोंदणीकृत विक्रेत्याकडून साइट सर्वे आणि लेखी कोटेशन घ्या.",
+                aiAnswerSpace: "साधारणपणे प्रत्येक 1 kW साठी सुमारे 100 चौ. फूट जागा धरली जाते. पॅनेलची मांडणी, सावली आणि देखभालीसाठीची जागा यामुळे प्रत्यक्ष गरज बदलू शकते.",
+                aiAnswerRain: "हो. ढगाळ किंवा पावसाळी दिवसांतही पॅनेल वीज तयार करू शकतात, पण कमी सूर्यप्रकाशामुळे उत्पादन कमी होते. प्रत्यक्ष उत्पादन हवामान, सावली आणि प्रणालीवर अवलंबून असते.",
+                aiAnswerSubsidy: "पात्र निवासी ग्राहकांसाठी अनुदानाची प्रक्रिया अधिकृत PM Surya Ghar पोर्टलवरून होते. पात्रता, तपासणी, मंजुरी आणि बँक खात्यातील जमा यांचे नियम व वेळ अधिकृत पोर्टलवर तपासा. कोणालाही OTP सांगू नका."
             },
             en: {
                 pageTitle: "EcoGrid | Solar and Services Portal",
@@ -961,7 +1050,19 @@
                 footerNote: "A step toward clean energy",
                 validationError: "Enter a valid bill amount and at least 20 sq. ft. of available roof area.",
                 areaLimited: "Available roof area limits the system to {capacity} kW.",
-                areaSufficient: "Available roof area is sufficient for this capacity."
+                areaSufficient: "Available roof area is sufficient for this capacity.",
+                aiTitle: "AI solar advisor",
+                aiDescription: "General guidance from preset questions; this is not a personal AI service or technical consultation.",
+                aiQuestionLabel: "Choose a question:",
+                aiOptionType: "Which panels are suitable for my home?",
+                aiOptionSpace: "How much roof space does solar need?",
+                aiOptionRain: "Does solar generate electricity during monsoon?",
+                aiOptionSubsidy: "Is the subsidy deposited directly into my account?",
+                aiAnswerButton: "Show answer",
+                aiAnswerType: "Compare BIS certification, manufacturer warranty, efficiency, roof orientation, and shade. Ask an officially registered vendor for a site survey and written quote before choosing panels.",
+                aiAnswerSpace: "A rough planning estimate is about 100 sq. ft. per 1 kW. Actual space varies with panel layout, shade, and access needed for maintenance.",
+                aiAnswerRain: "Yes. Panels can generate on cloudy and rainy days, but output is lower with less sunlight. Actual generation depends on weather, shade, and system design.",
+                aiAnswerSubsidy: "Eligible residential customers apply through the official PM Surya Ghar portal. Check the portal for eligibility, inspection, approval, and bank-disbursement requirements and timelines. Never share an OTP."
             },
             hi: {
                 pageTitle: "EcoGrid | सोलर और सेवा पोर्टल",
@@ -1040,7 +1141,19 @@
                 footerNote: "स्वच्छ ऊर्जा की ओर एक कदम",
                 validationError: "बिजली बिल की सही राशि और कम से कम 20 वर्ग फुट छत का क्षेत्रफल भरें।",
                 areaLimited: "उपलब्ध छत का क्षेत्र सिस्टम को {capacity} kW तक सीमित करता है।",
-                areaSufficient: "उपलब्ध छत का क्षेत्र इस क्षमता के लिए पर्याप्त है।"
+                areaSufficient: "उपलब्ध छत का क्षेत्र इस क्षमता के लिए पर्याप्त है।",
+                aiTitle: "AI सोलर सलाहकार",
+                aiDescription: "पहले से तय सवालों पर सामान्य जानकारी; यह निजी AI सेवा या तकनीकी परामर्श नहीं है।",
+                aiQuestionLabel: "अपना सवाल चुनें:",
+                aiOptionType: "मेरे घर के लिए कौन-से पैनल सही हैं?",
+                aiOptionSpace: "सोलर के लिए कितनी जगह चाहिए?",
+                aiOptionRain: "क्या बारिश के मौसम में सोलर बिजली बनाता है?",
+                aiOptionSubsidy: "क्या सब्सिडी सीधे खाते में जमा होती है?",
+                aiAnswerButton: "जवाब देखें",
+                aiAnswerType: "पैनल चुनते समय BIS प्रमाणन, निर्माता की वारंटी, दक्षता, छत की दिशा और छाया देखें। सही विकल्प के लिए आधिकारिक रूप से पंजीकृत विक्रेता से साइट सर्वे और लिखित कोटेशन लें।",
+                aiAnswerSpace: "मोटे अनुमान के लिए हर 1 kW पर लगभग 100 वर्ग फुट जगह मानें। पैनल की व्यवस्था, छाया और रखरखाव के लिए रास्ते के कारण वास्तविक जरूरत बदल सकती है।",
+                aiAnswerRain: "हाँ। बादल और बारिश में भी पैनल बिजली बना सकते हैं, लेकिन कम धूप में उत्पादन घटता है। वास्तविक उत्पादन मौसम, छाया और सिस्टम डिज़ाइन पर निर्भर करता है।",
+                aiAnswerSubsidy: "पात्र घरेलू ग्राहक आधिकारिक PM Surya Ghar पोर्टल के माध्यम से आवेदन करते हैं। पात्रता, निरीक्षण, मंज़ूरी और बैंक खाते में भुगतान की शर्तें व समय पोर्टल पर जाँचें। किसी के साथ OTP साझा न करें।"
             }
         };
 
@@ -1054,6 +1167,7 @@
         let currentLanguage = "mr";
         let lastEstimate = null;
         let hasValidationError = false;
+        let latestAssistantQuery = null;
 
         function translate(key) {
             return translations[currentLanguage][key];
@@ -1079,6 +1193,7 @@
 
             if (hasValidationError) errorMessage.textContent = translate("validationError");
             if (lastEstimate) renderEstimate(lastEstimate);
+            if (latestAssistantQuery) renderAssistantAnswer();
 
             try {
                 localStorage.setItem("ecogrid-language", currentLanguage);
@@ -1112,7 +1227,28 @@
             } catch {}
         }
 
+        function renderAssistantAnswer() {
+            const answer = document.getElementById("aiRes");
+            answer.textContent = translate(latestAssistantQuery);
+            answer.classList.add("is-visible");
+        }
+
+        function askAIAssistant() {
+            const answerByQuestion = {
+                type: "aiAnswerType",
+                space: "aiAnswerSpace",
+                rain: "aiAnswerRain",
+                subsidy: "aiAnswerSubsidy"
+            };
+            const answerKey = answerByQuestion[document.getElementById("aiQuery").value];
+
+            if (!answerKey) return;
+            latestAssistantQuery = answerKey;
+            renderAssistantAnswer();
+        }
+
         window.changeLanguage = changeLanguage;
+        window.askAIAssistant = askAIAssistant;
 
         form.addEventListener("submit", (event) => {
             event.preventDefault();
